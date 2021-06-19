@@ -1,10 +1,10 @@
 
 <h1 align="center">
-    BLUEPIX API
+    IMOBSIS BACK-END
 </h1>
 
 <h3 align="center">
-Plataforma de inscrição em eventos online e pagamento via PIX integrado com Gerencianet
+Sistema de gerenciamento completo para imobiliárias
 </h3>
 
 <p align="center">
@@ -15,12 +15,9 @@ Plataforma de inscrição em eventos online e pagamento via PIX integrado com Ge
 
 ## :rocket: Sobre o projeto
 
-<p>Esta é uma plataforma completa para fazer inscrições em eventos online</p> 
+<p>Sistema de gerenciamento completo para imobiliárias</p> 
 
 <p>Este é o repositório da API do projeto.</p>
-<ul>
-  <li>Para a versão web, <a href="https://github.com/wilsonllucena/bluepix">clique aqui</a>.</li>
-</ul>
 
 ## :computer: Tecnologias
 
@@ -59,8 +56,8 @@ Além das tecnologias abaixo, esta aplicação foi desenvolvida com as melhores 
 
 <i>Antes de executar estes passos, você precisa ter uma instância dos bancos listados acima ou um Docker com as imagens e os databases e schemas criados.</i>
 
-- Clone o repositório ```git clone https://github.com/willucena/apibluepix.git```
-- Vá até o diretório ```cd apibluepix```
+- Clone o repositório ```git clone https://github.com/willucena/imobsis.git```
+- Vá até o diretório ```cd imobsis```
 - Execute ```yarn``` para instalar as dependências
 - Copie o arquivo .env.example executando ```cp .env.example .env``` para linux ou mac e ```copy .env.example .env``` para windows
 - Abra o arquivo .env e preencha com suas variáveis de ambiente
