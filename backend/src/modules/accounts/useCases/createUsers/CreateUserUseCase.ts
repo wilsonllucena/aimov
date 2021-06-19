@@ -10,13 +10,10 @@ class CreateUserUseCase {
     private usersRepository: IUsersRepository
   ) { }
 
-  async execute({ name, email, password, cpf, fone , is_creator}: ICreateUsersDTO): Promise<void> {
+  async execute({ name, email, last_name, password, is_admin }: ICreateUsersDTO): Promise<void> {
 
     const userEmailAlreadyExists = await this.usersRepository.findByEmail(email);
-
-    const userCpfAlreadyExists = await this.usersRepository.findByCpf(cpf);
-
-    if (userEmailAlreadyExists || userCpfAlreadyExists ) {
+    if (userEmailAlreadyExists) {
       throw new AppError("Já existe usuário cadastrado com mesmo documento ou email")
     }
 
@@ -24,11 +21,10 @@ class CreateUserUseCase {
 
     await this.usersRepository.create({
       name,
-      cpf,
+      last_name,
       email,
-      fone,
       password: passwordHash,
-      is_creator
+      is_admin
     })
   }
 }

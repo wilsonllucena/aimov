@@ -11,8 +11,11 @@ class UsersRepository implements IUsersRepository {
   constructor() {
     this.repository = getRepository(User)
   }
+  list(): Promise<User[]> {
+    return this.repository.find();
+  }
 
-  async create({ name, email, last_name, password, avatar, is_admin, active, id }: ICreateUsersDTO): Promise<User | void> {
+  async create({ name, email, last_name, password, avatar, is_admin, id }: ICreateUsersDTO): Promise<User | void> {
     const user = this.repository.create({
       name,
       last_name,
@@ -20,7 +23,6 @@ class UsersRepository implements IUsersRepository {
       password,
       avatar,
       is_admin,
-      active,
       id
     })
 
@@ -35,11 +37,6 @@ class UsersRepository implements IUsersRepository {
     const user = await this.repository.findOne({ email });
     return user;
   }
-
-  // async findByCpf(cpf: string): Promise<User | undefined> {
-  //   const user = await this.repository.findOne({ cpf });
-  //   return user;
-  // }
 
   async findById(id: string): Promise<User | undefined> {
     const user = await this.repository.findOne(id);
