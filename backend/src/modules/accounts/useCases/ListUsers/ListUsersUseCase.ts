@@ -1,5 +1,6 @@
 import User from "@modules/accounts/entities/User";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
+import { classToClass } from "class-transformer";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -10,7 +11,8 @@ class ListUsersUseCase {
   ) { }
 
   async execute(): Promise<User[]> {
-    return this.usersRepository.list()
+    const users = this.usersRepository.list()
+    return classToClass(users);
   }
 }
 

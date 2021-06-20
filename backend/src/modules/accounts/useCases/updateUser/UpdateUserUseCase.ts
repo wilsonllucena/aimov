@@ -3,6 +3,7 @@ import { hash, compare } from 'bcrypt';
 import User from "@modules/accounts/entities/User";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { AppError } from "@shared/errors/AppError";
+import { classToClass } from "class-transformer";
 
 interface IRequestUpdate {
   name?: string;
@@ -54,7 +55,7 @@ class UpdateUserUseCase {
 
     }
 
-    const userUpdated = this.usersRepository.save(user)
+    const userUpdated = this.usersRepository.save(classToClass(user))
     return userUpdated
   }
 }
