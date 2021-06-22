@@ -4,16 +4,8 @@ import User from "@modules/accounts/entities/User";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { AppError } from "@shared/errors/AppError";
 import { classToClass } from "class-transformer";
+import { IUpdateUserDTO } from "@modules/accounts/dtos/IUpdateUserDTO";
 
-interface IRequestUpdate {
-  name?: string;
-  last_name?: string;
-  email?: string;
-  password?: string;
-  old_password?: string;
-  is_admin?: boolean;
-  user_id: string;
-}
 
 @injectable()
 class UpdateUserUseCase {
@@ -22,7 +14,7 @@ class UpdateUserUseCase {
     private usersRepository: IUsersRepository
   ) { }
 
-  async execute({ name, last_name, email, password, old_password, is_admin, user_id }: IRequestUpdate): Promise<User> {
+  async execute({ name, full_name, email, document, address, address_complement, cep, password, old_password, is_admin, user_id }: IUpdateUserDTO): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
@@ -38,7 +30,11 @@ class UpdateUserUseCase {
     }
 
     user.name = name ?? user.name;
-    user.last_name = last_name ?? user.last_name;
+    user.full_name = full_name ?? user.full_name;
+    user.document = document ?? user.document;
+    user.cep = cep ?? user.cep;
+    user.address = address ?? user.address;
+    user.address_complement = address_complement ?? user.address_complement;
     user.email = email ?? user.email;
     user.is_admin = is_admin ?? user.is_admin
 

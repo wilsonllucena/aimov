@@ -13,8 +13,10 @@ class CreateUserUseCase {
   async execute({ name, full_name, email, address, document, password, is_admin, }: ICreateUsersDTO): Promise<void> {
 
     const userEmailAlreadyExists = await this.usersRepository.findByEmail(email);
-    if (userEmailAlreadyExists) {
-      throw new AppError("Já existe usuário cadastrado com mesmo documento ou email")
+    const userDocumentAlreadyExist = await this.usersRepository.findByDocument(document);
+
+    if (userEmailAlreadyExists || userDocumentAlreadyExist) {
+      throw new AppError("Usuário já existe em nossa base")
     }
 
     const passwordHash = await hash(password, 8);

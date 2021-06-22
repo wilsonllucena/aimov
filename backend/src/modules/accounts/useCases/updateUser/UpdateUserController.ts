@@ -6,15 +6,18 @@ class UpdateUserController {
 
   async handle(request: Request, response: Response): Promise<Response> {
 
-    const { name, email, last_name, password, old_password, is_admin } = request.body;
+    const { name, full_name, email, document, address, address_complement, cep, password, old_password, is_admin, user_id } = request.body;
 
     const { id } = request.user;
     const updateUserUseCase = container.resolve(UpdateUserUseCase);
 
     const user = await updateUserUseCase.execute({
       name,
-      last_name,
-      email,
+      full_name,
+      email, document,
+      address,
+      address_complement,
+      cep,
       password,
       old_password,
       is_admin,
