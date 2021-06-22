@@ -1,11 +1,8 @@
 import { inject, injectable } from "tsyringe";
-import { hash, compare } from 'bcrypt';
 import User from "@modules/accounts/entities/User";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { AppError } from "@shared/errors/AppError";
 import { classToClass } from "class-transformer";
-import { IUpdateUserDTO } from "@modules/accounts/dtos/IUpdateUserDTO";
-
 
 interface IRequest {
   user_id: string,
@@ -24,7 +21,6 @@ class EnableDisableUserUseCase {
     if (!user) {
       throw new AppError("Usuário não foi encontrado")
     }
-
 
     user.active = active ?? user.active;
 
