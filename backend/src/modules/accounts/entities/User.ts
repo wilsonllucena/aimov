@@ -14,7 +14,11 @@ class User {
   @Column()
   document: string;
   @Column()
+  cep: string;
+  @Column()
   address: string;
+  @Column()
+  address_complement: string;
   @Column()
   @Exclude()
   password: string;

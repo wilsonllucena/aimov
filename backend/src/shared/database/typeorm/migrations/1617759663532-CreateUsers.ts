@@ -35,7 +35,17 @@ export class CreateUsers1617759663532 implements MigrationInterface {
                         isUnique: true
                     },
                     {
+                        name: "cep",
+                        type: "varchar",
+                        isNullable: true
+                    },
+                    {
                         name: "address",
+                        type: "varchar",
+                        isNullable: true
+                    },
+                    {
+                        name: "address_complement",
                         type: "varchar",
                         isNullable: true
                     },
