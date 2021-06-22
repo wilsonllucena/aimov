@@ -8,9 +8,13 @@ class User {
   @Column()
   name: string;
   @Column()
-  last_name: string;
+  full_name: string;
   @Column()
   email: string;
+  @Column()
+  document: string;
+  @Column()
+  address: string;
   @Column()
   @Exclude()
   password: string;
