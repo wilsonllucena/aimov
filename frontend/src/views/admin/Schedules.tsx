@@ -4,16 +4,22 @@ import CardTable from "components/Cards/CardTable.js";
 
 import api from "../../services/api";
 
+interface ScheduleProps {
+  id: string;
+  name: string;
+  link: string;
+}
 export default function Schedules() {
-  const [schedules, setSchedules] = useState([]);
+  const [schedules, setSchedules] = useState<ScheduleProps[]>([]);
 
-  useEffect(() => {
-    api.get("/schedules").then((response) => {
-      setSchedules(response.data);
-    }, []);
-  });
+  // useEffect(() => {
+  //   api.get("/schedules")
+  //   .then((response) => {
+  //     setSchedules(response.data);
+  //   }, []);
+  // });
 
-  console.log("Eventos: ", schedules);
+  // console.log("Eventos: ", schedules);
 
   return (
     <>
