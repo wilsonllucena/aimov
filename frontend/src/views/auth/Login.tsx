@@ -1,8 +1,64 @@
-import React from "react";
-import { Link } from "react-router-dom";
-// import { Link } from "react-router-dom";
+import React, { useCallback, useRef } from 'react';
+import { Link , useHistory} from "react-router-dom";
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/web';
+import Input from "components/Form/Input";
+import { useAuth } from '../../hooks/AuthContext';
+import { useToast } from '../../hooks/ToastContext';
 
-export default function Login() {
+interface SignInFormData {
+  username: string;
+  password: string;
+}
+const  Login: React.FC = ()  => {
+
+  const formRef = useRef<FormHandles>(null);
+  const history = useHistory();
+  // Hooks criados por mim
+  const { signIn } = useAuth();
+  const { addToast } = useToast();
+
+
+
+  const handleSubmit = useCallback(
+    async (data: SignInFormData) => {
+      // Validando
+      try {
+        // formRef.current?.setErrors({});
+        // const schema = Yup.object().shape({
+        //   email: Yup.string()
+        //     .required('E-mail obrigatório')
+        //     .email('Email inválido'),
+        //   password: Yup.string().required('Senha obrigatória'),
+        // });
+        // await schema.validate(data, {
+        //   abortEarly: false,
+        // });
+
+        await signIn({
+          username: data.username,
+          password: data.password,
+        });
+
+        history.push('/admin');
+      } catch (err) {
+
+        // if (err instanceof Yup.ValidationError) {
+        //   const errors = getValidationErrors(err);
+        //   formRef.current?.setErrors(errors);
+        //   return;
+        // }
+
+        addToast({
+          type: 'error',
+          title: 'Error na autenticação',
+          description: 'Ocorreu um error ao fazer login',
+        });
+      }
+    },
+    [signIn, addToast, history],
+  );
+
   return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -18,7 +74,7 @@ export default function Login() {
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
               </div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-                <form>
+              <Form ref={formRef} onSubmit={handleSubmit}>
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -26,10 +82,11 @@ export default function Login() {
                     >
                       Usuário
                     </label>
-                    <input
-                      type="text"
+                    <Input
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Usuário"
+                      name="username"
+                      type="text"
                     />
                   </div>
 
@@ -40,21 +97,22 @@ export default function Login() {
                     >
                       Senha
                     </label>
-                    <input
+                    <Input
                       type="password"
+                      name="password"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Senha"
                     />
                   </div>
                   <div className="text-center mt-6">
-                    <Link to="/admin/dashboard"
+                    <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                      type="button"
+                      type="submit"
                     >
                       Entrar
-                    </Link>
+                    </button>
                   </div>
-                </form>
+                </Form>
               </div>
             </div>
             {/* <div className="flex flex-wrap mt-6 relative">
@@ -79,3 +137,5 @@ export default function Login() {
     </>
   );
 }
+
+export default Login;

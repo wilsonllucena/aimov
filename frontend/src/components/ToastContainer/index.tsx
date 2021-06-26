@@ -1,6 +1,7 @@
 import React from 'react';
-import { useTransition, animated } from 'react-spring';
+import { useTransition } from 'react-spring';
 import Toast from './Toast';
+
 import { ToastMessage } from '../../hooks/ToastContext';
 import { Container } from './styles';
 
@@ -11,6 +12,7 @@ const ToastContainer: React.FC<ToastConteinerProps> = ({ messages }) => {
   // Isso é do react-spring pra fazer uma animação
   const messagesWithTransitions = useTransition(
     messages,
+    message => message.id,
     {
       from: { right: '-120%', opacity: '0' },
       enter: { right: '0%', opacity: '1' },
@@ -21,9 +23,9 @@ const ToastContainer: React.FC<ToastConteinerProps> = ({ messages }) => {
   return (
     <>
       <Container>
-              {messagesWithTransitions(({ opacity }, item) => (
-                   <Toast key={item.id} style={opacity} message={item} />
-             ))}
+        {messagesWithTransitions.map(({ item, key, props }) => (
+          <Toast key={key} style={props} message={item} />
+        ))}
       </Container>
     </>
   );
