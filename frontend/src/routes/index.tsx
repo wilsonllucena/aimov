@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch , Redirect} from 'react-router-dom';
 
 import Admin from 'layouts/Admin';
 import Auth from 'layouts/Auth';
@@ -10,10 +10,12 @@ import Profile from 'views/Profile';
 
 const Routes: React.FC = () => (
   <Switch>
-    <Route path="/admin" component={Admin} />
+    <Route path="/admin" component={Admin} isPrivate/>
     <Route path="/auth" component={Auth} />
-    <Route path="/" exact component={Landing} />
-    <Route path="/profile" exact component={Profile} />
+    {/* <Route path="/" component={Landing} /> */}
+    {/* <Route path="/profile" exact component={Profile} /> */}
+    <Redirect from="/" to="/admin" />
+
   </Switch>
 );
 
