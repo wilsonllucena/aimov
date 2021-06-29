@@ -1,7 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, {InputHTMLAttributes, useEffect, useRef } from "react";
 import { useField } from "@unform/core";
 
-export default function Textarea({ name, ...rest }) {
+interface InputProps extends InputHTMLAttributes<HTMLTextAreaElement> {
+  name: string;
+}
+const Textarea: React.FC<InputProps> = ({ name, ...rest }) => {
   const inputRef = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
 
@@ -22,4 +25,7 @@ export default function Textarea({ name, ...rest }) {
   }, [fieldName, registerField]);
 
     return <textarea ref={inputRef} defaultValue={defaultValue} {...rest} ></textarea>
+
 }
+
+export default Textarea;
