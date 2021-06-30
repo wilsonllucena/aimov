@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import {Form} from '@unform/web'
 import Input from "components/Form/Input";
 import Textarea from "components/Form/Textarea";
-
+import { useToast } from '../../../hooks/ToastContext';
 import api from '../../../services/api';
 
 interface FomDataRequest {
@@ -10,15 +10,32 @@ interface FomDataRequest {
   full_name: string;
   document: string;
   email: string;
-  cep: string;
   address: string;
   password: string
 }
 
 const CreateUser: React.FC = ()  => {
-  const handleSubmit = useCallback((data: FomDataRequest) => {
-    console.log("dados: ", data)
-  },[])
+
+  const { addToast } = useToast();
+
+  const handleSubmit = useCallback(async (data: FomDataRequest) => {
+    try {
+      await api.post("/users", data)
+
+      addToast({
+        type: 'success',
+        title: 'Cadastro OK',
+        description: 'cadastro realizado com sucesso.',
+      });
+    } catch (error) {
+      addToast({
+        type: 'error',
+        title: 'Opss...',
+        description: 'algo deu errado...',
+      });
+    }
+
+  },[addToast])
 
   return (
     <>
@@ -31,7 +48,7 @@ const CreateUser: React.FC = ()  => {
         <div className="flex-auto px-4 lg:px-10 py-10 pt-3">
         <Form onSubmit={handleSubmit}>
             <div className="flex flex-wrap">
-              <div className="w-full lg:w-12/12 px-4">
+              <div className="w-full lg:w-4/12 px-4">
                 <div className="relative w-full mb-3">
                   <label
                     className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -45,7 +62,7 @@ const CreateUser: React.FC = ()  => {
                   />
                 </div>
               </div>
-              <div className="w-full lg:w-12/12 px-4">
+              <div className="w-full lg:w-4/12 px-4">
                 <div className="relative w-full mb-3">
                   <label
                     className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -65,10 +82,10 @@ const CreateUser: React.FC = ()  => {
                     className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                     htmlFor="grid-password"
                   >
-                    Cidade
+                   Documento
                   </label>
                   <Input
-                    name="city"
+                    name="document"
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
                 </div>
@@ -79,10 +96,11 @@ const CreateUser: React.FC = ()  => {
                     className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                     htmlFor="grid-password"
                   >
-                  CEP
+                  E-MAIL
                   </label>
                   <Input
-                    name="cep"
+                    name="email"
+                    type="email"
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
                 </div>
@@ -102,17 +120,32 @@ const CreateUser: React.FC = ()  => {
                   />
                 </div>
               </div>
-         
+              <div className="w-full lg:w-4/12 px-4">
+                <div className="relative w-full mb-3">
+                  <label
+                    className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                    htmlFor="grid-password"
+                  >
+                    Senha
+                  </label>
+                  <Input
+                    name="password"
+                    type="password"
+                    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  />
+                </div>
+              </div>
             </div>
-
-  
             <div>
+            <div className="w-full lg:w-12/12 py-3 px-4">
             <button
               className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-              type="submit" 
+              type="submit"
             >
               Salvar
             </button>
+            </div>
+
             </div>
           </Form>
         </div>
