@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import {Form} from '@unform/web'
 import Input from "components/Form/Input";
-import Textarea from "components/Form/Textarea";
 import { useToast } from '../../../hooks/ToastContext';
 import api from '../../../services/api';
 
