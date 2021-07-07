@@ -3,3 +3,11 @@
 @tailwind components;
 
 @tailwind utilities;
+
+
+.btn-blue {
+  @apply bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded  focus:outline-none mr-1 ease-linear transition-all duration-150
+}
+.btn-blue:hover {
+  @apply hover:shadow-md shadow outline-none
+}

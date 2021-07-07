@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import {Form} from '@unform/web'
 import Input from "components/Form/Input";
+import Button from "components/Button";
 import { useToast } from '../../../hooks/ToastContext';
 import api from '../../../services/api';
 
@@ -137,12 +138,13 @@ const CreateUser: React.FC = ()  => {
             </div>
             <div>
             <div className="w-full lg:w-12/12 py-3 px-4">
-            <button
+            {/* <button
               className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
               type="submit"
-            >
-              Salvar
-            </button>
+            > */}
+              {/* Salvar */}
+            {/* </button> */}
+            <Button className="btn-blue" type="submit">Salvar</Button>
             </div>
 
             </div>
