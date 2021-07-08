@@ -8,12 +8,16 @@ export class CreateScore1625608140718 implements MigrationInterface {
                 name: "scores",
                 columns: [
                     {
-                        name: "id",
-                        type: "uuid",
+                        name: 'id',
+                        type: 'int',
                         isPrimary: true,
+                      },
+                      {
+                        name: 'uuid',
+                        type: 'uuid',
                         generationStrategy: 'uuid',
-                        default: 'uuid_generate_v4()'
-                    },
+                        default: 'uuid_generate_v4()',
+                      },
                     {
                         name: "title",
                         type: "varchar",
