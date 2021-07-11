@@ -1,21 +1,18 @@
 import React from 'react';
-import { Switch , Redirect} from 'react-router-dom';
 
-import Admin from 'layouts/Admin';
-import Auth from 'layouts/Auth';
-import Route from './Route';
+import { Switch, Route } from 'react-router-dom';
 
-import Landing from 'views/Landing';
-import Profile from 'views/Profile';
+import Dashboard from '../pages/Dashboard';
+import Login from '../pages/Login';
+import CreateUser from '../pages/Users/CreateUser';
+import UserList from '../pages/Users/UserList';
 
 const Routes: React.FC = () => (
   <Switch>
-    <Route path="/admin" component={Admin} isPrivate/>
-    <Route path="/auth" component={Auth} />
-    {/* <Route path="/" component={Landing} /> */}
-    {/* <Route path="/profile" exact component={Profile} /> */}
-    <Redirect from="/" to="/admin" />
-
+    <Route path="/" exact component={Login} />
+    <Route path="/admin" exact component={Dashboard} />
+    <Route path="/admin/users" exact component={UserList} />
+    <Route path="/admin/user/create" exact component={CreateUser} />
   </Switch>
 );
 

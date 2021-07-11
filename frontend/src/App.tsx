@@ -1,16 +1,20 @@
-import React from 'react';
+import { ChakraProvider } from '@chakra-ui/react';
+import {SidebarDrawerProvider} from './context/SidebarDrawerContext'
+import { theme } from './styles/theme';
 import { BrowserRouter as Router } from 'react-router-dom';
-import AppProvider from './hooks';
 import Routes from './routes';
 
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import 'assets/styles/tailwind.css';
+function App() {
 
-const App: React.FC = () => (
-  <Router>
-    <AppProvider>
-      <Routes />
-    </AppProvider>
-  </Router>
-);
+  return (  
+    <ChakraProvider resetCSS={true} theme={theme}>
+      <SidebarDrawerProvider>
+      <Router>
+        <Routes />
+      </Router>
+      </SidebarDrawerProvider>
+    </ChakraProvider>
+  );
+}
+
 export default App;

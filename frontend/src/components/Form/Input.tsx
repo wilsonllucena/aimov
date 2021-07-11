@@ -1,30 +1,25 @@
-import React, {InputHTMLAttributes, useEffect, useRef } from "react";
-import { useField } from "@unform/core";
+import { FormLabel, FormControl , Input as ChakraInput , InputProps as ChakraInputProps} from "@chakra-ui/react";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends ChakraInputProps{
   name: string;
-}
- const Input: React.FC<InputProps> = ({ name, ...rest }) => {
- const inputRef = useRef(null);
- const { fieldName, registerField, defaultValue, error } = useField(name);
+  label?: string;
+};
 
-  useEffect(() => {
-    registerField({
-      name: fieldName,
-      ref: inputRef,
-      getValue: (ref) => {
-        return ref.current.value;
-      },
-      setValue: (ref, value) => {
-        ref.current.value = value;
-      },
-      clearValue: (ref) => {
-        ref.current.value = "";
-      },
-    });
-  }, [fieldName, registerField]);
-
-    return <input ref={inputRef} defaultValue={defaultValue} {...rest} />
+export function Input({name , label,...rest}: InputProps){
+  return (
+    <FormControl>
+    {!! label && <FormLabel htmlFor={name}>{label}</FormLabel>}
+    <ChakraInput
+      name={name}
+      id={name}
+      focusBorderColor="cyan.500"  
+      bgColor="gray.900" 
+      size="lg"
+      variant="filled"
+      _hover={{ bgColor: 'gray.900'}} 
+      {...rest}
+       />
+    </FormControl>
+  )
 }
 
-export default Input;

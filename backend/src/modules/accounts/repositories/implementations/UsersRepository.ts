@@ -1,21 +1,30 @@
-import { injectable } from "tsyringe";
-import { getRepository, Repository } from "typeorm";
-import User from "@modules/accounts/entities/User";
-import { IUsersRepository, ICreateUsersDTO } from "../IUsersRepository";
-
+import { injectable } from 'tsyringe';
+import { getRepository, Repository } from 'typeorm';
+import User from '@modules/accounts/entities/User';
+import { IUsersRepository, ICreateUsersDTO } from '../IUsersRepository';
 
 @injectable()
 class UsersRepository implements IUsersRepository {
-  private repository: Repository<User>
+  private repository: Repository<User>;
 
   constructor() {
-    this.repository = getRepository(User)
+    this.repository = getRepository(User);
   }
   list(): Promise<User[]> {
     return this.repository.find();
   }
 
-  async create({ name, full_name, email, address, document, password, avatar, is_admin, id }: ICreateUsersDTO): Promise<User | void> {
+  async create({
+    name,
+    full_name,
+    email,
+    address,
+    document,
+    password,
+    avatar,
+    is_admin,
+    id,
+  }: ICreateUsersDTO): Promise<User | void> {
     const user = this.repository.create({
       name,
       full_name,
@@ -25,8 +34,8 @@ class UsersRepository implements IUsersRepository {
       password,
       avatar,
       is_admin,
-      id
-    })
+      id,
+    });
 
     await this.repository.save(user);
   }
@@ -51,4 +60,4 @@ class UsersRepository implements IUsersRepository {
   }
 }
 
-export { UsersRepository }
+export { UsersRepository };
