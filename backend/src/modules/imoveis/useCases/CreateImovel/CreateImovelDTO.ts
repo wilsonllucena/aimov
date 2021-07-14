@@ -1,12 +1,15 @@
-import IEspecificacaoDTO from "./IEspecificacaoDTO";
-import IProprietarioDTO from "./IProprietarioDTO";
+import IEspecificacaoDTO from "@modules/imoveis/dtos/IEspecificacaoDTO";
+import IProprietarioDTO from "@modules/imoveis/dtos/IProprietarioDTO";
 
-interface ICreateImovelDTO {
+
+interface CreateImovelDTO {
     id?: number,
     id_proprietario: number,
     id_especificacao: number,
     id_situacao_imovel?: number,
     id_autorizacao?: number,
+    proprietario: IProprietarioDTO,
+    especificacao?: IEspecificacaoDTO,
     cep: string,
     endereco: string,
     cidade: string,
@@ -19,4 +22,4 @@ interface ICreateImovelDTO {
     observacoes?: string,
 }
 
-export default ICreateImovelDTO;
+export default CreateImovelDTO;

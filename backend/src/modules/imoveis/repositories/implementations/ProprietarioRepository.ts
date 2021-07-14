@@ -13,6 +13,7 @@ class ProprietarioRepository implements IProprietarioRepository {
   constructor() {
     this.repository = getRepository(Proprietario);
   }
+
   list(): Promise<Proprietario[]> {
     return this.repository.find();
   }
@@ -39,6 +40,11 @@ class ProprietarioRepository implements IProprietarioRepository {
 
   async findById(id: string): Promise<Proprietario | undefined> {
     const proprietario = await this.repository.findOne(id);
+    return proprietario;
+  }
+
+  async findByDocumento(documento: string): Promise<Proprietario | undefined> {
+    const proprietario = await this.repository.findOne(documento);
     return proprietario;
   }
 }
