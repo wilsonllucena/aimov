@@ -10,7 +10,7 @@ const router = Router();
 router.use("/api/login", authenticateRoutes)
 router.use("/api/users", userRoutes);
 router.use("/api/scores", scoreRoutes);
-router.use("/api/imovel", imovelRoutes);
+router.use("/api/imoveis", imovelRoutes);
 
 
 export { router }
