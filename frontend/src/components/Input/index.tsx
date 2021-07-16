@@ -46,7 +46,7 @@ interface InputProps extends ChakraInputProps{
     //   setIsFocused(true);
     //   setIsFilled(!!inputRef.current?.value);
     // }, []);
-    const { fieldName, registerField } = useField(name);
+    const { fieldName, defaultValue,registerField } = useField(name);
   
     useEffect(() => {
       registerField({
@@ -86,6 +86,8 @@ interface InputProps extends ChakraInputProps{
       focusBorderColor="cyan.500"  
       bgColor="gray.900" 
       size="lg"
+      defaultValue={defaultValue}
+      ref={inputRef}
       variant="filled"
       _hover={{ bgColor: 'gray.900'}} 
       {...rest}

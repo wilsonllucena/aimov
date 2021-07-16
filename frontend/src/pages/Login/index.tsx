@@ -43,7 +43,7 @@ const Login: React.FC = () => {
             password: data.password,
           });
   
-          history.push('/dashboard');
+          history.push('/admin');
         } catch (err) {
         //   if (err instanceof Yup.ValidationError) {
         //     const errors = getValidationErrors(err);
@@ -54,7 +54,7 @@ const Login: React.FC = () => {
           addToast({
             type: 'error',
             title: 'Error na autenticação',
-            description: 'Ocorreu um error ao fazer login',
+            // description: 'Ocorreu um error ao fazer login',
           });
           return;
         }
