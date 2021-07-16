@@ -5,6 +5,7 @@ import {
   JoinColumn,
   OneToMany,
   OneToOne,
+  PrimaryColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -19,19 +20,27 @@ class Imovel {
   @PrimaryGeneratedColumn()
   id: number;
   @Column()
-  id_proprietario: number;
+  nome_proprietario: string;
   @Column()
-  id_especificacao: number;
+  documento_proprietario: string;
+  @Column()
+  email_proprietario: string;
+  @Column()
+  telefone_proprietario: string;
+//   @Column()
+//   id_proprietario: number;
+//   @Column()
+//   id_especificacao: number;
   @Column()
   id_situacao_imovel: number;
   @Column()
   id_autorizacao: number;
-  @OneToOne(() => Especificacao)
-  @JoinColumn({name: 'id_especificacao'})
-  especificacao: Especificacao;
-  @OneToOne(() => Proprietario)
-  @JoinColumn({name: 'id_proprietario'})
-  proprietario: Proprietario;
+//   @OneToOne(() => Especificacao)
+//   @JoinColumn({name: 'id_especificacao'})
+//   especificacao: Especificacao;
+//   @OneToOne(() => Proprietario)
+//   @JoinColumn({name: 'id_proprietario'})
+//   proprietario: Proprietario;
   @OneToMany(() => SituacoesImovel, situacao => situacao.situacao)
   situacoes: SituacoesImovel[];
   @OneToOne(() => TipoAutorizacao)
@@ -44,11 +53,27 @@ class Imovel {
   @Column()
   cidade: string;
   @Column()
+  uf: string;
+  @Column()
   bairro: string;
   @Column()
   regiao: string;
   @Column()
+  latitude?: string;
+  @Column()
+  longitude?: string;
+  @Column()
   data_anuncio?: Date;
+  @Column()
+  quantidade_quartos?: number;
+  @Column()
+  quantidade_suites?: number;
+  @Column()
+  tipo?: string;
+  @Column()
+  garagem?: boolean;
+  @Column()
+  metragem?: number;
   @Column()
   id_usuario_responsavel: number;
   @Column()

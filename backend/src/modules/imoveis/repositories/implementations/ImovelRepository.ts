@@ -19,33 +19,45 @@ class ImovelRepository implements IImovelRepository {
 
   async create({
     id,
-    id_proprietario,
-    id_especificacao,
-    id_situacao_imovel,
-    id_autorizacao,
-    cep,
-    endereco,
+    nome_proprietario,
+    documento_proprietario,
+    email_proprietario,
+    telefone_proprietario,
+    id_usuario_responsavel,
     cidade,
     bairro,
+    endereco,
+    cep,
+    uf,
     regiao,
-    id_usuario_responsavel,
-    id_usuario_ultima_alteracao,
+    data_anuncio,
+    quantidade_quartos,
+    quantidade_suites,
+    garagem,
+    metragem,
     observacoes,
+    tipo,
   }: ICreateImovelDTO): Promise<Imovel | void> {
     const imovel = this.repository.create({
       id,
-      id_proprietario,
-      id_especificacao,
-      id_situacao_imovel,
-      id_autorizacao,
-      cep,
-      endereco,
+      nome_proprietario,
+      documento_proprietario,
+      email_proprietario,
+      telefone_proprietario,
+      id_usuario_responsavel,
       cidade,
       bairro,
+      endereco,
+      cep,
+      uf,
       regiao,
-      id_usuario_responsavel,
-      id_usuario_ultima_alteracao,
+      data_anuncio,
+      quantidade_quartos,
+      quantidade_suites,
+      garagem,
+      metragem,
       observacoes,
+      tipo,
     });
 
     await this.repository.save(imovel);
@@ -58,6 +70,15 @@ class ImovelRepository implements IImovelRepository {
   async findById(id: string): Promise<Imovel | undefined> {
     const imovel = await this.repository.findOne(id);
     return imovel;
+  }
+
+  async findByDocumentoProprietario(documento_proprietario: string): Promise<Imovel | undefined> {
+    const imovel = await this.repository.findOne({documento_proprietario});
+    return imovel;
+  }
+
+  async findByTipo(tipo: string): Promise<Imovel[]> {
+    return await this.repository.find({tipo});
   }
 }
 

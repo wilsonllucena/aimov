@@ -6,52 +6,66 @@ import {
 import { IProprietarioRepository } from '@modules/imoveis/repositories/IProprietarioRepository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
-import CreateImovelDTO from './CreateImovelDTO';
 
 @injectable()
 class CreateImovelUseCase {
   constructor(
     @inject('ImovelRepository')
     private imovelRepository: IImovelRepository,
-    @inject('ProprietarioRepository')
-    private proprietarioRepository: IProprietarioRepository,
   ) {}
 
   async execute({
-    proprietario,
-    especificacao,
+    nome_proprietario,
+    documento_proprietario,
+    email_proprietario,
+    telefone_proprietario,
     id_usuario_responsavel,
     cidade,
     bairro,
+    uf,
     endereco,
     cep,
+    latitude,
+    longitude,
     regiao,
-    observacoes,
     data_anuncio,
-  }: CreateImovelDTO): Promise<Imovel | void> {
-    const proprietarioExiste =
-      await this.proprietarioRepository.findByDocumento(proprietario.documento);
+    quantidade_quartos,
+    quantidade_suites,
+    garagem,
+    metragem,
+    tipo,
+    observacoes
+  }: ICreateImovelDTO): Promise<Imovel | void> {
 
-    if (proprietarioExiste) {
-      throw new AppError('Prorietário ja esta cadastrado');
-    }
+const proprietarioDocumento = await this.imovelRepository.findByDocumentoProprietario(documento_proprietario);
 
-    const proprietarioData = await this.proprietarioRepository.create(
-      proprietario,
-    );
+if(proprietarioDocumento){
+    throw new AppError(`Já existe proprietário com o documento ${documento_proprietario}.`);
+}
 
-    await this.imovelRepository.create({
-      id_proprietario: proprietarioData.id,
-      id_especificacao,
-      id_usuario_responsavel,
-      cidade,
-      bairro,
-      endereco,
-      cep,
-      regiao,
-      observacoes,
-      data_anuncio,
+  const imovel = await this.imovelRepository.create({
+        nome_proprietario,
+        documento_proprietario,
+        email_proprietario,
+        telefone_proprietario,
+        id_usuario_responsavel,
+        cidade,
+        bairro,
+        endereco,
+        uf,
+        cep,
+        latitude,
+        longitude,
+        regiao,
+        data_anuncio,
+        quantidade_quartos,
+        quantidade_suites,
+        garagem,
+        metragem,
+        observacoes,
+        tipo
     });
+    return imovel;
   }
 }
 
