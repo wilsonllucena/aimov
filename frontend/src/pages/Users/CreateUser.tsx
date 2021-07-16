@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, Divider, HStack, VStack, Button, Flex, Heading, SimpleGrid} from '@chakra-ui/react';
 import {Header} from '../../components/Header'
 import {Sidebar} from '../../components/Sidebar'
-import {Input} from '../../components/Form/Input'
+import {Input} from '../../components/Input'
 import { Link } from 'react-router-dom';
 
 interface FomDataRequest {
