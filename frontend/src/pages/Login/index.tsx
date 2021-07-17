@@ -71,7 +71,7 @@ const Login: React.FC = () => {
 					flexDir="column"
 				>
 					<Stack spacing="4">
-						<Input name="username" type="text" label="Usuário" />
+						<Input name="username" type="text" label="Usuário" isMask={true} />
 						<Input name="password" type="password" label="Senha" />
 					</Stack>
 					<Button type="submit">Entrar</Button>

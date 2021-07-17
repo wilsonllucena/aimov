@@ -5,12 +5,19 @@ import {
 	Input as ChakraInput,
 	InputProps as ChakraInputProps,
 } from "@chakra-ui/react";
+import InputMask from "react-input-mask";
 import { useField } from "@unform/core";
 interface InputProps extends ChakraInputProps {
 	name: string;
+	isMask?: boolean;
 	label?: string;
 }
-const Input: React.FC<InputProps> = ({ name, label, ...rest }) => {
+const Input: React.FC<InputProps> = ({
+	name,
+	isMask = false,
+	label,
+	...rest
+}) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const { fieldName, defaultValue, registerField } = useField(name);
@@ -26,19 +33,39 @@ const Input: React.FC<InputProps> = ({ name, label, ...rest }) => {
 	return (
 		<FormControl>
 			{!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
-			<ChakraInput
+			{isMask ? (
+				<ChakraInput
+					as={InputMask}
+					mask="***.***.***-**"
+					maskChar={null}
+					name={name}
+					id={name}
+					focusBorderColor="cyan.500"
+					bgColor="gray.900"
+					size="md"
+					fontSize="md"
+					defaultValue={defaultValue}
+					ref={inputRef}
+					variant="filled"
+					_hover={{ bgColor: "gray.900" }}
+					{...rest}
+				/>
+			): (
+                <ChakraInput
 				name={name}
 				id={name}
 				focusBorderColor="cyan.500"
 				bgColor="gray.900"
 				size="md"
-                fontSize="md"
+				fontSize="md"
 				defaultValue={defaultValue}
 				ref={inputRef}
 				variant="filled"
 				_hover={{ bgColor: "gray.900" }}
 				{...rest}
 			/>
+            )}
+		
 		</FormControl>
 	);
 };
