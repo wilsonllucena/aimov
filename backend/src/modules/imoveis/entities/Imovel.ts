@@ -75,9 +75,9 @@ class Imovel {
   @Column()
   metragem?: number;
   @Column()
-  id_usuario_responsavel: number;
+  id_usuario_responsavel: string;
   @Column()
-  id_usuario_ultima_alteracao?: number;
+  id_usuario_ultima_alteracao?: string;
   @Column()
   ativo: boolean;
   @Column()

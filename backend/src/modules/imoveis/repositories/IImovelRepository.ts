@@ -6,9 +6,7 @@ interface IImovelRepository{
   findById(id: number): Promise<Imovel | undefined>
   findByDocumentoProprietario(documento_proprietario: string): Promise<Imovel | undefined>
   findByTipo(tipo: string): Promise<Imovel[]>
-//   edit(id: number): Promise<Imovel>
-//   update(imovel: Imovel): Promise<Imovel>
-//   delete(imovel: Imovel): Promise<void>
+  update(imovel: Imovel): Promise<Imovel>
   list(): Promise<Imovel[]>;
   save(user: Imovel): Promise<Imovel>;
 }

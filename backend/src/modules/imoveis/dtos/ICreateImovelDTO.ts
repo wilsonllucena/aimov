@@ -24,8 +24,8 @@ interface ICreateImovelDTO {
     garagem?: boolean;
     metragem?: number;
     data_anuncio?: Date,
-    id_usuario_responsavel: number,
-    id_usuario_ultima_alteracao?: number,
+    id_usuario_responsavel: string,
+    id_usuario_ultima_alteracao?: string,
     ativo?: boolean,
     observacoes?: string,
     tipo:string,
