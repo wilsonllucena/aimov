@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { Link, useHistory } from "react-router-dom";
 import { Input } from "../../components/Input";
 import { useAuth } from "../../hooks/AuthContext";
-import { useToast } from "../../hooks/ToastContext";
+import { useToast } from "@chakra-ui/react";
 import Button from "../../components/Button";
 import getValidationErrors from "../../utils/getValidationErrors";
 // import {Input} from '../../components/Form/Input'
@@ -19,7 +19,7 @@ const Login: React.FC = () => {
 	const formRef = useRef<FormHandles>(null);
 	const history = useHistory();
 	const { signIn } = useAuth();
-	const { addToast } = useToast();
+    const toast = useToast()
 
 	const handleSubmit = useCallback(
 		async (data: SignInFormData) => {
@@ -35,10 +35,11 @@ const Login: React.FC = () => {
 				//     abortEarly: false,
 				//   });
 
-				console.log(data);
+                const {username, password } = data;
+				username.replace(/[^\d]+/g,"")
 				await signIn({
-					username: data.username,
-					password: data.password,
+					username: username.replace(/[^\d]+/g,""),
+					password
 				});
 
 				history.push("/admin");
@@ -49,15 +50,19 @@ const Login: React.FC = () => {
 				//     return;
 				//   }
 
-				addToast({
-					type: "error",
-					title: "Error na autenticação",
+				toast({
+					title: "Erro na autenticação",
+                    description: "Ops não foi possivel autenticar.",
+                    status: "error",
+                    position: "top-right",
+                    duration: 9000,
+                    isClosable: true,
 					// description: 'Ocorreu um error ao fazer login',
 				});
 				return;
 			}
 		},
-		[signIn, addToast, history]
+		[signIn, toast, history]
 	);
 	return (
 		<Form ref={formRef} onSubmit={handleSubmit}>

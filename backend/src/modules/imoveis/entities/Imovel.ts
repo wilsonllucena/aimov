@@ -82,7 +82,7 @@ class Imovel {
   ativo: boolean;
   @Column()
   observacoes?: string;
-  @Exclude()
+  
   @CreateDateColumn()
   created_at: Date;
   @Exclude()

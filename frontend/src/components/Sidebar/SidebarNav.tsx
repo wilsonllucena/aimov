@@ -19,7 +19,7 @@ const SidebarNav: React.FC = () => {
 				<NavLink href="/admin/users" icon={RiContactsLine}>
 					Usuários
 				</NavLink>
-				<NavLink href="#" icon={RiBuildingLine}>
+				<NavLink href="/admin/imoveis" icon={RiBuildingLine}>
 					Imoveis
 				</NavLink>
 			</NavSection>
