@@ -15,7 +15,7 @@ class UpdateImovelController {
 			if (error instanceof AppError) {
 				return response.status(error.statusCode).send(error.message);
 			}
-			return response.status(500).send(error.message);
+			return response.status(500).send(error);
 		}
 	}
 }

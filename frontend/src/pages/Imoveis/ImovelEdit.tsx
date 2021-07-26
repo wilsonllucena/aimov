@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
 	Box,
 	Divider,
@@ -7,12 +7,12 @@ import {
 	Flex,
 	Heading,
 	SimpleGrid,
-    useToast
+	useToast,
 } from "@chakra-ui/react";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 import { Input } from "../../components/Input";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { Form } from "@unform/web";
 import Button from "../../components/Button";
 import { FormHandles } from "@unform/core";
@@ -20,9 +20,9 @@ import Select from "../../components/Select";
 import api from "../../services/apiClient";
 import { InputCPF } from "../../components/InputMask/InputCPF";
 import { InputCEP } from "../../components/InputMask/InputCEP";
-import { InputFone } from "../../components/InputMask/InputFone";
 
-interface FomDataRequest {
+interface ImovelData {
+	id?: string;
 	nome_proprietario: string;
 	documento_proprietario: string;
 	email_proprietario: string;
@@ -51,38 +51,54 @@ interface FomDataRequest {
 	created_at: Date;
 }
 
-const ImovelCreate: React.FC = () => {
+interface ParamsData {
+    id: string;
+}
+const ImovelEdit: React.FC = () => {
 	const formRef = useRef<FormHandles>(null);
-    const toast = useToast()
+	const [initialData, setInitialData] = useState<ImovelData[]>([]);
+    const params = useParams<ParamsData>();
+	const toast = useToast();
 	const history = useHistory();
 
-	const handleSubmit = useCallback(async (data: FomDataRequest) => {
-        try {
+	const handleSubmit = useCallback(async (data: ImovelData) => {
+		try {
             data.documento_proprietario = data.documento_proprietario.replace(/[^\d]/g, "");
             data.cep = data.cep.replace(/[^\d]/g, "");
-            await api.post('/imoveis/create', data);
-            toast({
-                title: "Cadastro",
-                description: "Cadastro relaizado com sucesso.",
-                status: "success",
-                position: "top-right",
-                duration: 9000,
-                isClosable: true,
-            });
+            data.id = params.id;
+            
+			await api.put("/imoveis", data);
+			toast({
+				title: "Atualização",
+				description: "Imovel atualizado com sucesso.",
+				status: "success",
+				position: "top-right",
+				duration: 9000,
+				isClosable: true,
+			});
 
-            history.push("/admin/imoveis");
-        } catch (error) {
-            toast({
-                title: "Erro",
-                description: "Algo deu errado.",
-                status: "error",
-                position: "top-right",
-                duration: 9000,
-                isClosable: true,
-            });
-        }
-    
-    }, []);
+			history.push("/admin/imoveis");
+		} catch (error) {
+			toast({
+				title: "Erro",
+				description: error,
+				status: "error",
+				position: "top-right",
+				duration: 9000,
+				isClosable: true,
+			});
+		}
+	}, [toast, params.id, history]);
+
+	useEffect(() => {
+	     api.get(`/imoveis/${params.id}`)
+			.then((response) => {
+                setInitialData(response.data);
+            })
+			.catch((error) => console.log(error));
+	}, [params.id]);
+
+    console.log(initialData)
 	return (
 		<Box>
 			<Header />
@@ -91,11 +107,15 @@ const ImovelCreate: React.FC = () => {
 
 				<Box flex="1" borderRadius={8} bg="gray.800" p={["6", "8"]}>
 					<Heading size="lg" fontWeight="bold">
-						Criar Imóvel
+						Editar Imóvel
 					</Heading>
 
 					<Divider my="6" borderColor="gray.700" />
-					<Form ref={formRef} onSubmit={handleSubmit}>
+					<Form
+						ref={formRef}
+						initialData={initialData}
+						onSubmit={handleSubmit}
+					>
 						<VStack spacing="8">
 							<SimpleGrid
 								minChildWidth="240px"
@@ -123,7 +143,7 @@ const ImovelCreate: React.FC = () => {
 									label="E-mail"
 									type="email"
 								/>
-								<InputFone
+								<Input
 									name="telefone_proprietario"
 									label="Telefone"
 									type="text"
@@ -184,10 +204,16 @@ const ImovelCreate: React.FC = () => {
 									type="text"
 									label="Metragem do imovel"
 								/>
-                                <Select name="tipo" label="Tipo de Imóvel" placeholder="Selecione um tipo">
-                                    <option value="RESIDENCIA">Residência</option>
-                                    <option value="COMERCIAL">Comercial</option>
-                                </Select>
+								<Select
+									name="tipo"
+									label="Tipo de Imóvel"
+									placeholder="Selecione um tipo"
+								>
+									<option value="RESIDENCIA">
+										Residência
+									</option>
+									<option value="COMERCIAL">Comercial</option>
+								</Select>
 							</SimpleGrid>
 						</VStack>
 						<Flex justify="flex-end">
@@ -219,4 +245,4 @@ const ImovelCreate: React.FC = () => {
 	);
 };
 
-export default ImovelCreate;
+export default ImovelEdit;

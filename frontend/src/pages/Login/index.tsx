@@ -8,9 +8,7 @@ import { Input } from "../../components/Input";
 import { useAuth } from "../../hooks/AuthContext";
 import { useToast } from "@chakra-ui/react";
 import Button from "../../components/Button";
-import getValidationErrors from "../../utils/getValidationErrors";
-// import {Input} from '../../components/Form/Input'
-
+import { InputCPF } from "../../components/InputMask/InputCPF";
 interface SignInFormData {
 	username: string;
 	password: string;
@@ -36,7 +34,6 @@ const Login: React.FC = () => {
 				//   });
 
                 const {username, password } = data;
-				username.replace(/[^\d]+/g,"")
 				await signIn({
 					username: username.replace(/[^\d]+/g,""),
 					password
@@ -76,7 +73,7 @@ const Login: React.FC = () => {
 					flexDir="column"
 				>
 					<Stack spacing="4">
-						<Input name="username" type="text" label="Usuário" isMask={true} />
+						<InputCPF name="username" type="text" label="Usuário" />
 						<Input name="password" type="password" label="Senha" />
 					</Stack>
 					<Button type="submit">Entrar</Button>

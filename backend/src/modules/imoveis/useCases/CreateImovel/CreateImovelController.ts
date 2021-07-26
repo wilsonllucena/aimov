@@ -60,7 +60,7 @@ class CreateImovelController {
 					.json({ error: error.message });
 			}
 
-			return response.json({ error: error });
+			return response.status(500).json({ error: error });
 		}
 	}
 }

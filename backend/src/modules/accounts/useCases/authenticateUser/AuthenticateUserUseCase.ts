@@ -40,7 +40,7 @@ class AuthenticateUserUseCase {
     }
 
     // Gerando o token com jsonwebtoken
-    const token = sign({}, `${process.env.APP_SECRET}`, {
+    const token = sign({}, `${process.env.APP_KEY_PRIVATE}`, {
       subject: user.id,
       expiresIn: "1d"
     });

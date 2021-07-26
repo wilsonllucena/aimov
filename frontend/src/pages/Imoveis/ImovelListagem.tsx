@@ -211,7 +211,8 @@ const ImovelListagem: React.FC = () => {
 												label="Editar"
 												bg="blue.600"
 											>
-											<Button
+                                                <Link to={`imovel/${imovel.id}`}>
+                                                <Button
 													as="a"
 													size="sm"
 													fontSize="sm"
@@ -222,6 +223,8 @@ const ImovelListagem: React.FC = () => {
 														fontSize="18"
 													/>
 												</Button>
+                                                </Link>
+											
 											</Tooltip>
 											<Tooltip
 												hasArrow

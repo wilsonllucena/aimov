@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { getRepository, Repository } from "typeorm";
+import { getRepository, Repository, UpdateResult } from "typeorm";
 import { IImovelRepository, ICreateImovelDTO } from "../IImovelRepository";
 import Imovel from "@modules/imoveis/entities/Imovel";
 
@@ -10,9 +10,7 @@ class ImovelRepository implements IImovelRepository {
 	constructor() {
 		this.repository = getRepository(Imovel);
 	}
-	async update(imovel: Imovel): Promise<Imovel> {
-		return await this.repository.save(imovel);
-	}
+
 
     // Só recupera imoveis ativos os desativados foram excluidos
 	list(): Promise<Imovel[]> {
@@ -65,8 +63,13 @@ class ImovelRepository implements IImovelRepository {
 		await this.repository.save(imovel);
 	}
 
+   
 	public async save(imovel: Imovel): Promise<Imovel> {
 		return this.repository.save(imovel);
+	}
+
+    public async update(imovel: Imovel): Promise<UpdateResult> {
+		return this.repository.update({id: imovel.id}, imovel);
 	}
 
 	async findById(id: number): Promise<Imovel | undefined> {

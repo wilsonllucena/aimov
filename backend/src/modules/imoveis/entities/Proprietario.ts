@@ -2,12 +2,14 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    PrimaryColumn,
+    JoinColumn,
+    ManyToOne,
     PrimaryGeneratedColumn,
   } from 'typeorm';
   import { Exclude } from 'class-transformer';
+import Imovel from './Imovel';
   
-@Entity('proprietarios')
+@Entity('proprietarios_imovel')
 class Proprietario {
   @PrimaryGeneratedColumn()
   id: number;
@@ -19,6 +21,9 @@ class Proprietario {
   email?: string;
   @Column()
   telefone: string;
+  @ManyToOne(() => Imovel)
+  @JoinColumn({name: 'id_imovel'})
+  imovel: Imovel;
   @Exclude()
   @CreateDateColumn()
   created_at: Date;

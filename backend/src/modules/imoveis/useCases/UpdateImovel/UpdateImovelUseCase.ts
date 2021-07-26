@@ -2,13 +2,14 @@ import IUpdateImovelDTO from "@modules/imoveis/dtos/IUpdateImovelDTO";
 import Imovel from "@modules/imoveis/entities/Imovel";
 import { IImovelRepository } from "@modules/imoveis/repositories/IImovelRepository";
 import { inject, injectable } from "tsyringe";
+import { UpdateResult } from "typeorm";
 
 @injectable()
 class UpdateImovelUseCase {
 	constructor(
 		@inject("ImovelRepository") private imovelRepository: IImovelRepository
 	) {}
-	async execute(user_id: string,data: IUpdateImovelDTO): Promise<Imovel> {
+	async execute(user_id: string,data: IUpdateImovelDTO): Promise<UpdateResult> {
 		const imovel = await this.imovelRepository.findById(Number(data.id));
 
 		if (!imovel) {

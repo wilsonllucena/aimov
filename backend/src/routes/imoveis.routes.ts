@@ -16,7 +16,7 @@ const deleteImovelController = new DeleteImovelController();
 imovelRoutes.get("/", ensureAuthenticated, listImoveisController.handle);
 imovelRoutes.post("/create", ensureAuthenticated, createImovelController.handle);
 imovelRoutes.get("/:id", ensureAuthenticated, getImovelController.handle);
-imovelRoutes.patch("/", ensureAuthenticated, updateImovelController.handle);
+imovelRoutes.put("/", ensureAuthenticated, updateImovelController.handle);
 imovelRoutes.delete("/:id", ensureAuthenticated, deleteImovelController.handle);
 
 export { imovelRoutes }

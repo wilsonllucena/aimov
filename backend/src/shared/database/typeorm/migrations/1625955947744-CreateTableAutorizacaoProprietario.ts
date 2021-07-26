@@ -5,7 +5,7 @@ export class CreateTableAutorizacaoProprietario1625955947744 implements Migratio
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-              name: 'tipo_autorizacao',
+              name: 'autorizacao',
               columns: [
                 {
                   name: 'id',
@@ -27,7 +27,7 @@ export class CreateTableAutorizacaoProprietario1625955947744 implements Migratio
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('tipo_autorizacao');
+        await queryRunner.dropTable('autorizacao');
     }
 
 }
