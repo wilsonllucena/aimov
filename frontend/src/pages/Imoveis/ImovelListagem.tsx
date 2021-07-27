@@ -29,7 +29,7 @@ import { Sidebar } from "../../components/Sidebar";
 import { Pagination } from "../../components/Pagination";
 import { Link } from "react-router-dom";
 import api from "../../services/apiClient";
-import './styles.css'
+import "./styles.css";
 
 interface Imovel {
 	id: number;
@@ -47,7 +47,7 @@ interface Imovel {
 	regiao: string;
 	latitude?: string;
 	longitude?: string;
-    formatedDate: string;
+	formatedDate: string;
 	data_anuncio: Date;
 	quantidade_quartos?: number;
 	quantidade_suites?: number;
@@ -68,7 +68,9 @@ const ImovelListagem: React.FC = () => {
 			const imovelData = response.data.map((imovel) => {
 				return {
 					...imovel,
-					formatedDate: new Date(imovel.created_at).toLocaleDateString(),
+					formatedDate: new Date(
+						imovel.created_at
+					).toLocaleDateString(),
 				};
 			});
 			setImoveis(imovelData);
@@ -193,17 +195,21 @@ const ImovelListagem: React.FC = () => {
 												label="Imagens"
 												bg="blue.600"
 											>
-												<Button
-													as="a"
-													size="sm"
-													fontSize="sm"
-													colorScheme="yellow"
+												<Link
+													to={`images/imovel/${imovel.id}`}
 												>
-													<Icon
-														as={RiImageLine}
-														fontSize="18"
-													/>
-												</Button>
+													<Button
+														as="a"
+														size="sm"
+														fontSize="sm"
+														colorScheme="yellow"
+													>
+														<Icon
+															as={RiImageLine}
+															fontSize="18"
+														/>
+													</Button>
+												</Link>
 											</Tooltip>
 											<Tooltip
 												hasArrow
@@ -211,20 +217,21 @@ const ImovelListagem: React.FC = () => {
 												label="Editar"
 												bg="blue.600"
 											>
-                                                <Link to={`imovel/${imovel.id}`}>
-                                                <Button
-													as="a"
-													size="sm"
-													fontSize="sm"
-													colorScheme="green"
+												<Link
+													to={`imovel/${imovel.id}`}
 												>
-													<Icon
-														as={RiPencilLine}
-														fontSize="18"
-													/>
-												</Button>
-                                                </Link>
-											
+													<Button
+														as="a"
+														size="sm"
+														fontSize="sm"
+														colorScheme="green"
+													>
+														<Icon
+															as={RiPencilLine}
+															fontSize="18"
+														/>
+													</Button>
+												</Link>
 											</Tooltip>
 											<Tooltip
 												hasArrow

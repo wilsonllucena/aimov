@@ -18,8 +18,8 @@ import Button from "../../components/Button";
 import { FormHandles } from "@unform/core";
 import Select from "../../components/Select";
 import api from "../../services/apiClient";
-import { InputCPF } from "../../components/InputMask/InputCPF";
-import { InputCEP } from "../../components/InputMask/InputCEP";
+import { InputMask } from "../../components/InputMask";
+import { InputFone } from "../../components/InputMask/InputFone";
 
 interface ImovelData {
 	id?: string;
@@ -52,54 +52,59 @@ interface ImovelData {
 }
 
 interface ParamsData {
-    id: string;
+	id: string;
 }
 const ImovelEdit: React.FC = () => {
 	const formRef = useRef<FormHandles>(null);
 	const [initialData, setInitialData] = useState<ImovelData[]>([]);
-    const params = useParams<ParamsData>();
+	const params = useParams<ParamsData>();
 	const toast = useToast();
 	const history = useHistory();
 
-	const handleSubmit = useCallback(async (data: ImovelData) => {
-		try {
-            data.documento_proprietario = data.documento_proprietario.replace(/[^\d]/g, "");
-            data.cep = data.cep.replace(/[^\d]/g, "");
-            data.id = params.id;
-            
-			await api.put("/imoveis", data);
-			toast({
-				title: "Atualização",
-				description: "Imovel atualizado com sucesso.",
-				status: "success",
-				position: "top-right",
-				duration: 9000,
-				isClosable: true,
-			});
+	const handleSubmit = useCallback(
+		async (data: ImovelData) => {
+			try {
+				data.documento_proprietario = data.documento_proprietario.replace(
+					/[^\d]/g,
+					""
+				);
+				data.cep = data.cep.replace(/[^\d]/g, "");
+				data.id = params.id;
 
-			history.push("/admin/imoveis");
-		} catch (error) {
-			toast({
-				title: "Erro",
-				description: error,
-				status: "error",
-				position: "top-right",
-				duration: 9000,
-				isClosable: true,
-			});
-		}
-	}, [toast, params.id, history]);
+				await api.put("/imovel", data);
+				toast({
+					title: "Atualização",
+					description: "Imovel atualizado com sucesso.",
+					status: "success",
+					position: "top-right",
+					duration: 9000,
+					isClosable: true,
+				});
+
+				history.push("/admin/imoveis");
+			} catch (error) {
+				toast({
+					title: "Erro",
+					description: error,
+					status: "error",
+					position: "top-right",
+					duration: 9000,
+					isClosable: true,
+				});
+			}
+		},
+		[toast, params.id, history]
+	);
 
 	useEffect(() => {
-	     api.get(`/imoveis/${params.id}`)
+		api.get(`/imovel/${params.id}`)
 			.then((response) => {
-                setInitialData(response.data);
-            })
+				setInitialData(response.data);
+			})
 			.catch((error) => console.log(error));
 	}, [params.id]);
 
-    console.log(initialData)
-	return (
+    return (
 		<Box>
 			<Header />
 			<Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
@@ -127,7 +132,8 @@ const ImovelEdit: React.FC = () => {
 									label="Nome do proprietário"
 									type="text"
 								/>
-								<InputCPF
+								<InputMask
+									mask="***.***.***-**"
 									name="documento_proprietario"
 									label="CPF"
 									type="text"
@@ -143,7 +149,7 @@ const ImovelEdit: React.FC = () => {
 									label="E-mail"
 									type="email"
 								/>
-								<Input
+								<InputFone
 									name="telefone_proprietario"
 									label="Telefone"
 									type="text"
@@ -155,7 +161,12 @@ const ImovelEdit: React.FC = () => {
 								spacing={["6", "8"]}
 								w="100%"
 							>
-								<InputCEP name="cep" type="text" label="CEP" />
+								<InputMask
+									name="cep"
+									type="text"
+									mask="*****-***"
+									label="CEP"
+								/>
 								<Input
 									name="endereco"
 									type="text"

@@ -18,9 +18,8 @@ import Button from "../../components/Button";
 import { FormHandles } from "@unform/core";
 import Select from "../../components/Select";
 import api from "../../services/apiClient";
-import { InputCPF } from "../../components/InputMask/InputCPF";
-import { InputCEP } from "../../components/InputMask/InputCEP";
 import { InputFone } from "../../components/InputMask/InputFone";
+import { InputMask } from "../../components/InputMask";
 
 interface FomDataRequest {
 	nome_proprietario: string;
@@ -107,7 +106,8 @@ const ImovelCreate: React.FC = () => {
 									label="Nome do proprietário"
 									type="text"
 								/>
-								<InputCPF
+								<InputMask
+                                    mask="***.***.***-**"
 									name="documento_proprietario"
 									label="CPF"
 									type="text"
@@ -135,7 +135,7 @@ const ImovelCreate: React.FC = () => {
 								spacing={["6", "8"]}
 								w="100%"
 							>
-								<InputCEP name="cep" type="text" label="CEP" />
+								<InputMask mask="*****-***" name="cep" type="text" label="CEP" />
 								<Input
 									name="endereco"
 									type="text"

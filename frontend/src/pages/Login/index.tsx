@@ -8,7 +8,7 @@ import { Input } from "../../components/Input";
 import { useAuth } from "../../hooks/AuthContext";
 import { useToast } from "@chakra-ui/react";
 import Button from "../../components/Button";
-import { InputCPF } from "../../components/InputMask/InputCPF";
+import { InputMask } from "../../components/InputMask";
 interface SignInFormData {
 	username: string;
 	password: string;
@@ -73,7 +73,7 @@ const Login: React.FC = () => {
 					flexDir="column"
 				>
 					<Stack spacing="4">
-						<InputCPF name="username" type="text" label="Usuário" />
+						<InputMask name="username" mask="***.***.***-**" type="text" label="Usuário" />
 						<Input name="password" type="password" label="Senha" />
 					</Stack>
 					<Button type="submit">Entrar</Button>

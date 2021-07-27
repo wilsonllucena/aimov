@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { authenticateRoutes } from './authenticate.routes';
-import { imovelRoutes } from './imoveis.routes';
+import { imovelRoutes } from './imoveis/imoveis.routes';
 import { scoreRoutes } from './score.routes';
 
 import { userRoutes } from './users.routes';
@@ -10,7 +10,7 @@ const router = Router();
 router.use("/api/login", authenticateRoutes)
 router.use("/api/users", userRoutes);
 router.use("/api/scores", scoreRoutes);
-router.use("/api/imoveis", imovelRoutes);
+router.use("/", imovelRoutes);
 
 
 export { router }

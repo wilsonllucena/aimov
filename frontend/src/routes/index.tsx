@@ -9,6 +9,7 @@ import UserList from "../pages/Users/UserList";
 import ImovelListagem from "../pages/Imoveis/ImovelListagem";
 import ImovelCreate from "../pages/Imoveis/ImovelCreate";
 import ImovelEdit from "../pages/Imoveis/ImovelEdit";
+import ImovelImages from "../pages/Imoveis/ImovelImages";
 
 const Routes: React.FC = () => (
 	<Switch>
@@ -31,6 +32,12 @@ const Routes: React.FC = () => (
 			path="/admin/imovel/:id"
 			exact
 			component={ImovelEdit}
+			isPrivate
+		/>
+        <Route
+			path="/admin/images/imovel/:id"
+			exact
+			component={ImovelImages}
 			isPrivate
 		/>
 		<Route

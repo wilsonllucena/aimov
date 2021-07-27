@@ -13,6 +13,7 @@ import { Exclude } from 'class-transformer';
 import SituacoesImovel from './SituacoesImovel';
 import TipoAutorizacao from './TipoAutorizacao';
 import Proprietario from './Proprietario';
+import { Imagens } from './Imagens';
 @Entity('imoveis')
 class Imovel {
   @PrimaryGeneratedColumn()
@@ -36,6 +37,8 @@ class Imovel {
   autorizacao: TipoAutorizacao;
   @OneToMany(() => Proprietario, proprietario => proprietario.imovel)
   proprietarios: Proprietario[];
+  @OneToMany(() => Imagens, imagem => imagem.imovel)
+  imagens: Imagens[]
   @Column()
   cep: string;
   @Column()

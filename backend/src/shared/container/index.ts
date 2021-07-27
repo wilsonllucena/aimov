@@ -11,6 +11,8 @@ import { IImovelRepository } from '@modules/imoveis/repositories/IImovelReposito
 import { ImovelRepository } from '@modules/imoveis/repositories/implementations/ImovelRepository';
 import ITipoAutorizacaoRepository from '@modules/imoveis/repositories/ITipoAutorizacaoRepository';
 import TipoAutorizacaoRepository from '@modules/imoveis/repositories/implementations/TipoAutorizacaoRepository';
+import { IImagensRepository } from '@modules/imoveis/repositories/IImagesRepository';
+import { ImagensRepository } from '@modules/imoveis/repositories/implementations/ImagensRepository';
 
 container.registerSingleton<IUsersRepository>(
   "UsersRepository",
@@ -30,6 +32,11 @@ container.registerSingleton<IProprietarioRepository>(
 container.registerSingleton<IImovelRepository>(
     "ImovelRepository",
     ImovelRepository
+)
+
+container.registerSingleton<IImagensRepository>(
+    "ImagensRepository",
+    ImagensRepository
 )
 
 container.registerSingleton<ITipoAutorizacaoRepository>(
