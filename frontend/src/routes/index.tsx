@@ -10,6 +10,9 @@ import ImovelListagem from "../pages/Imoveis/ImovelListagem";
 import ImovelCreate from "../pages/Imoveis/ImovelCreate";
 import ImovelEdit from "../pages/Imoveis/ImovelEdit";
 import ImovelImages from "../pages/Imoveis/ImovelImages";
+import ProprietarioListagem from "../pages/Imoveis/Proprietario/ProprietarioListagem";
+import ProprietarioEdit from "../pages/Imoveis/Proprietario/ProprietárioEdit";
+import ProprietarioCreate from "../pages/Imoveis/Proprietario/ProprietarioCreate";
 
 const Routes: React.FC = () => (
 	<Switch>
@@ -32,6 +35,24 @@ const Routes: React.FC = () => (
 			path="/admin/imovel/:id"
 			exact
 			component={ImovelEdit}
+			isPrivate
+		/>
+        <Route
+			path="/admin/imovel/:id/proprietarios"
+			exact
+			component={ProprietarioListagem}
+			isPrivate
+		/>
+          <Route
+			path="/admin/imovel/:id/proprietario/create"
+			exact
+			component={ProprietarioCreate}
+			isPrivate
+		/>
+        <Route
+			path="/admin/imovel/proprietario/:id"
+			exact
+			component={ProprietarioEdit}
 			isPrivate
 		/>
         <Route

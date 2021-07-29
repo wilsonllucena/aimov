@@ -10,7 +10,7 @@ import { ShowUserController } from '@modules/accounts/useCases/ShowUser/ShowUser
 import uploadConfig from '../config/upload'
 
 const userRoutes = Router();
-const uploadAvatar = multer(uploadConfig.upload("./tmp/avatar"))
+// const uploadAvatar = multer(uploadConfig.upload("./tmp/avatar"))
 
 const listUsersController = new ListUsersController();
 const createUserController = new CreateUserController();
@@ -25,7 +25,7 @@ userRoutes.post("/", createUserController.handle);
 userRoutes.put("/", ensureAuthenticated, updateUserController.handle)
 userRoutes.get("/:user_id", ensureAuthenticated, showUserController.handle)
 userRoutes.patch("/active/:user_id", ensureAuthenticated, enableDisableUserController.handle)
-userRoutes.patch("/avatar", ensureAuthenticated, uploadAvatar.single('avatar_file'), updateUserAvatarController.handle)
+// userRoutes.patch("/avatar", ensureAuthenticated, uploadAvatar.single('avatar_file'), updateUserAvatarController.handle)
 
 export { userRoutes }
 

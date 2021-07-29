@@ -2,11 +2,12 @@ import { inject, injectable } from "tsyringe";
 import { deleteFile } from "@utils/file";
 import { IImovelRepository } from "@modules/imoveis/repositories/IImovelRepository";
 import { IImagensRepository } from "@modules/imoveis/repositories/IImagesRepository";
+import IStorageProvider from "@shared/container/providers/StorageProvider/models/IStorageProvider";
 
 interface IRequest {
 	id_imovel: string;
 	nome: string;
-    file: string;
+	file: string;
 }
 
 @injectable()
@@ -15,23 +16,18 @@ class UploadUseCase {
 		@inject("ImovelRepository")
 		private imovelRepository: IImovelRepository,
 		@inject("ImagensRepository")
-		private imagensRepository: IImagensRepository
+		private imagensRepository: IImagensRepository,
+		@inject("StorageProvider")
+		private storageProvider: IStorageProvider
 	) {}
 
 	async execute(data: IRequest): Promise<void> {
-        const id_imovel = Number(data.id_imovel);
-        const {nome} = data;
-        
-		const imovel = await this.imovelRepository.findById(id_imovel);
-		//delete arquivo se existir
-		if (imovel) {
-			await deleteFile(`./tmp/upload/imagens/${data.file}`);
-		}
+		const id_imovel = Number(data.id_imovel);
+		const { nome, file } = data;
 
-        const file = `/tmp/upload/imagens/${data.file}`
+		await this.storageProvider.saveFile(file);
 
 		await this.imagensRepository.create({ id_imovel, nome, file });
-
 	}
 }
 

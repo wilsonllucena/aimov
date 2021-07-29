@@ -23,6 +23,7 @@ import {
 	RiEyeLine,
 	RiImageLine,
 	RiPencilLine,
+    RiUser2Line,
 } from "react-icons/ri";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
@@ -177,6 +178,10 @@ const ImovelListagem: React.FC = () => {
 												label="Visualizar"
 												bg="blue.600"
 											>
+                                                
+												<Link
+													to={`imovel/${imovel.id}/proprietarios`}
+												>
 												<Button
 													as="a"
 													size="sm"
@@ -184,10 +189,11 @@ const ImovelListagem: React.FC = () => {
 													colorScheme="blue"
 												>
 													<Icon
-														as={RiEyeLine}
+														as={RiUser2Line}
 														fontSize="18"
 													/>
 												</Button>
+                                                </Link>
 											</Tooltip>
 											<Tooltip
 												hasArrow

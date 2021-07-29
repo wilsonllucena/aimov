@@ -11,6 +11,7 @@ class ImagensRepository implements IImagensRepository {
 		this.repository = getRepository(Imagens);
 	}
 
+
 	list(): Promise<Imagens[]> {
 		return this.repository.find();
 	}
@@ -41,6 +42,11 @@ class ImagensRepository implements IImagensRepository {
 		const imagem = await this.repository.findOne(id);
 		return imagem;
 	}
+
+    async findByIdImovel(id_imovel: number): Promise<Imagens[]> {
+        const imagens = await this.repository.find({id_imovel});
+		return imagens;
+    }
 }
 
 export { ImagensRepository };

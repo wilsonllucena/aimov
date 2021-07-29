@@ -1,5 +1,4 @@
 import React, {
-	ChangeEvent,
 	useCallback,
 	useEffect,
 	useRef,
@@ -7,7 +6,6 @@ import React, {
 } from "react";
 import {
 	Collapse,
-	Image,
 	Tooltip,
 	useDisclosure,
 	useToast,
@@ -29,52 +27,59 @@ import {
 	useBreakpointValue,
 } from "@chakra-ui/react";
 import { RiAddLine, RiDeleteBinLine, RiEyeLine } from "react-icons/ri";
-import { Header } from "../../components/Header";
-import { Sidebar } from "../../components/Sidebar";
-import { Pagination } from "../../components/Pagination";
-import { useHistory, useParams } from "react-router-dom";
-import api from "../../services/apiClient";
-import "./styles.css";
+import { Header } from "../../../components/Header";
+import { Sidebar } from "../../../components/Sidebar";
+import { Pagination } from "../../../components/Pagination";
+import { Link,useParams } from "react-router-dom";
+import api from "../../../services/apiClient";
 import { Form } from "@unform/web";
-import ImageInput from "../../components/ImageInput";
+import ImageInput from "../../../components/ImageInput";
 import { FiFile } from "react-icons/fi";
 import { FormHandles } from "@unform/core";
 
-interface ImovelImage {
+interface ProprietarioData {
 	id?: number;
 	nome: string;
-	file: string;
-	image_url: string;
+    documento: string;
+    email: string;
+    telefone: string;
+    id_imovel: number;
 }
 interface ParamsData {
 	id: string;
 }
 
-const ImovelImages: React.FC = () => {
+const ProprietarioListagem: React.FC = () => {
 	const formRef = useRef<FormHandles>(null);
 	const toast = useToast();
-	const [images, setImages] = useState<ImovelImage[]>([]);
+	const [proprietarios, setProprietarios] = useState<ProprietarioData[]>([]);
 	const params = useParams<ParamsData>();
 	const { isOpen, onToggle, onClose } = useDisclosure();
 
-	const carregaImagens = useCallback(() => {
-		api.get(`/imovel/${params.id}/imagens`)
-			.then((response) => {
-				setImages(response.data);
-			})
-			.catch((error) => console.log(error));
-	}, [params.id]);
+
 
 	useEffect(() => {
-		carregaImagens();
-	}, [carregaImagens]);
+        // api.get(`/imovel/${params.id}/proprietarios`)
+        // .then((response) => {
+        //     setProprietarios(response.data);
+        // })
+        // .catch((error) => console.log(error));
+        setProprietarios([{
+            id: 1,
+            nome: "João",
+            documento: "123456789",
+            email: "joao@email.com",
+            telefone: "99999-9999",
+            id_imovel: 1
+        }]);
+	}, []);
 
-	const handleSubmit = useCallback(async (files) => {
+	const handleSubmit = useCallback(async (data) => {
 		try {
-			const { file } = files;
-			const data = new FormData();
-			data.append("file", file);
-			await api.post(`/imovel/${params.id}/imagens`, data);
+		
+            data.documento = data.documento.replace(/[^\d]/g, "");
+           
+            await api.post('/imoveis/create', data);
 			toast({
 				title: "Cadastro",
 				description: "Cadastro relaizado com sucesso.",
@@ -84,7 +89,6 @@ const ImovelImages: React.FC = () => {
 				isClosable: true,
 			});
 			onClose();
-			carregaImagens();
 		} catch (error) {
 			toast({
 				title: "Erro",
@@ -95,7 +99,7 @@ const ImovelImages: React.FC = () => {
 				isClosable: true,
 			});
 		}
-	}, [carregaImagens, onClose, toast, params.id]);
+	}, [params.id]);
 
 	const isWideVersion = useBreakpointValue({
 		base: false,
@@ -110,18 +114,19 @@ const ImovelImages: React.FC = () => {
 				<Box flex="1" borderRadius={8} bg="gray.800" p="8">
 					<Flex mb="8" justify="space-between" align="center">
 						<Heading size="lg" fontWeight="normal">
-							Imagens do imovél
+							Proprietarios
 						</Heading>
-						<Button
-							onClick={onToggle}
-							as="a"
-							size="sm"
-							fontSize="sm"
-							colorScheme="cyan"
-							leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-						>
-							Novo arquivo
-						</Button>
+						<Link to="proprietario/create">
+							<Button
+								as="a"
+								size="sm"
+								fontSize="sm"
+								colorScheme="cyan"
+								leftIcon={<Icon as={RiAddLine} fontSize="20" />}
+							>
+								Criar novo
+							</Button>
+						</Link>
 					</Flex>
 					<Collapse in={isOpen} animateOpacity>
 						<Box
@@ -151,24 +156,17 @@ const ImovelImages: React.FC = () => {
 					<Table colorScheme="whiteAlpha">
 						<Thead>
 							<Tr>
-								<Th>Imagem</Th>
+								<Th>Nome</Th>
+                                <Th>E-mail</Th>
 								{isWideVersion && <Th>Data de cadastro</Th>}
 								<Th w="8"></Th>
 							</Tr>
 						</Thead>
 						<Tbody>
-							{images.map((image) => (
-								<Tr key={image.id}>
-									<Td>
-										<Box size="sm">
-											<Image
-												objectFit="cover"
-												boxSize="50px"
-												src={image.image_url}
-												alt={image.nome}
-											/>
-										</Box>
-									</Td>
+							{proprietarios.map((proprietario) => (
+								<Tr key={proprietario.id}>
+								    <Td>{proprietario.nome}</Td>
+                                    <Td>{proprietario.email}</Td>
 
 									{isWideVersion && <Td>26/07/2021</Td>}
 
@@ -223,4 +221,4 @@ const ImovelImages: React.FC = () => {
 	);
 };
 
-export default ImovelImages;
+export default ProprietarioListagem;

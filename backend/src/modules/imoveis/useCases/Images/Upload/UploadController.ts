@@ -6,7 +6,7 @@ class UploadController {
 	async handle(request: Request, response: Response): Promise<Response> {
         try {
             const { id_imovel } = request.params;
-            const nome = request?.file?.originalname;
+            const nome = request?.file?.filename;
             const file = request?.file?.filename;
             const uploadUseCase = container.resolve(UploadUseCase);
     
@@ -15,7 +15,7 @@ class UploadController {
     
             return response.status(204).send();
         } catch (error) {
-            return response.status(500).send(error.message);
+            return response.status(500).send(error);
         }
 
 	}

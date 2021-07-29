@@ -7,9 +7,9 @@ import { userRoutes } from './users.routes';
 
 const router = Router();
 
-router.use("/api/login", authenticateRoutes)
-router.use("/api/users", userRoutes);
-router.use("/api/scores", scoreRoutes);
+router.use("/login", authenticateRoutes)
+router.use("/users", userRoutes);
+router.use("/scores", scoreRoutes);
 router.use("/", imovelRoutes);
 
 
