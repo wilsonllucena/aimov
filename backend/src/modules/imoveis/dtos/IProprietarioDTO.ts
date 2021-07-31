@@ -4,4 +4,5 @@ export default interface IProprietarioDTO {
     documento: string;
     email?: string;
     telefone: string;
+    id_imovel: number;
 }

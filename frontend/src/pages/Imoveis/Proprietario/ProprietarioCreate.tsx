@@ -35,7 +35,7 @@ const ProprietarioCreate: React.FC = () => {
 	const handleSubmit = useCallback(async (data: FomDataRequest) => {
 		try {
 			data.documento = data.documento.replace(/[^\d]/g, "");
-			await api.post("/imoveis/create", data);
+			await api.post("/imoveis", data);
 			toast({
 				title: "Cadastro",
 				description: "Cadastro relaizado com sucesso.",

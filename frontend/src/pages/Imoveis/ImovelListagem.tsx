@@ -126,9 +126,9 @@ const ImovelListagem: React.FC = () => {
 											<Text fontWeight="bold">
 												{imovel.nome_proprietario}
 											</Text>
-											<Text fontSize="sm">
+											{/* <Text fontSize="sm">
 												{imovel.email_proprietario}br
-											</Text>
+											</Text> */}
 										</Box>
 									</Td>
 									<Td>
@@ -175,7 +175,7 @@ const ImovelListagem: React.FC = () => {
 											<Tooltip
 												hasArrow
 												placement="top"
-												label="Visualizar"
+												label="Proprietários"
 												bg="blue.600"
 											>
                                                 

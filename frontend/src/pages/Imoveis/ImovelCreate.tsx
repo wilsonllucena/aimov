@@ -59,7 +59,7 @@ const ImovelCreate: React.FC = () => {
         try {
             data.documento_proprietario = data.documento_proprietario.replace(/[^\d]/g, "");
             data.cep = data.cep.replace(/[^\d]/g, "");
-            await api.post('/imoveis/create', data);
+            await api.post('/imovel', data);
             toast({
                 title: "Cadastro",
                 description: "Cadastro relaizado com sucesso.",

@@ -1,52 +1,64 @@
-import { injectable } from 'tsyringe';
-import { getRepository, Repository } from 'typeorm';
+import { injectable } from "tsyringe";
+import { DeleteResult, getRepository, Repository, UpdateResult } from "typeorm";
 import {
-  IProprietarioDTO,
-  IProprietarioRepository,
-} from '../IProprietarioRepository';
-import Proprietario from '@modules/imoveis/entities/Proprietario';
+	IProprietarioDTO,
+	IProprietarioRepository,
+} from "../IProprietarioRepository";
+import Proprietario from "@modules/imoveis/entities/Proprietario";
 
 @injectable()
 class ProprietarioRepository implements IProprietarioRepository {
-  private repository: Repository<Proprietario>;
+	private repository: Repository<Proprietario>;
 
-  constructor() {
-    this.repository = getRepository(Proprietario);
-  }
+	constructor() {
+		this.repository = getRepository(Proprietario);
+	}
 
-  list(): Promise<Proprietario[]> {
-    return this.repository.find();
-  }
+	update(proprietario: Proprietario): Promise<UpdateResult> {
+		return this.repository.update({ id: proprietario.id }, proprietario);
+	}
 
-  async create({
-    nome,
-    documento,
-    email,
-    telefone,
-  }: IProprietarioDTO): Promise<Proprietario | void> {
-    const imovel = this.repository.create({
-      nome,
-      documento,
-      email,
-      telefone,
-    });
+	list(): Promise<Proprietario[]> {
+		return this.repository.find();
+	}
 
-    await this.repository.save(imovel);
-  }
+	async create({
+		nome,
+		documento,
+		email,
+		telefone,
+		id_imovel,
+	}: IProprietarioDTO): Promise<Proprietario | void> {
+		const imovel = this.repository.create({
+			nome,
+			documento,
+			email,
+			telefone,
+			id_imovel,
+		});
 
-  public async save(proprietario: Proprietario): Promise<Proprietario> {
-    return this.repository.save(proprietario);
-  }
+		await this.repository.save(imovel);
+	}
 
-  async findById(id: string): Promise<Proprietario | undefined> {
-    const proprietario = await this.repository.findOne(id);
-    return proprietario;
-  }
+	async save(proprietario: Proprietario): Promise<Proprietario> {
+		return this.repository.save(proprietario);
+	}
 
-  async findByDocumento(documento: string): Promise<Proprietario | undefined> {
-    const proprietario = await this.repository.findOne(documento);
-    return proprietario;
-  }
+	async findById(id: number): Promise<Proprietario | undefined> {
+		const proprietario = await this.repository.findOne(id);
+		return proprietario;
+	}
+
+	async delete(proprietario: Proprietario): Promise<DeleteResult> {
+		return await this.repository.delete({ id: proprietario.id });
+	}
+
+	async findByDocumento(
+		documento: string
+	): Promise<Proprietario | undefined> {
+		const proprietario = await this.repository.findOne(documento);
+		return proprietario;
+	}
 }
 
 export { ProprietarioRepository };

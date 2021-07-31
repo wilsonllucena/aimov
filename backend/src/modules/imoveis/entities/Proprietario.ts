@@ -6,7 +6,7 @@ import {
     ManyToOne,
     PrimaryGeneratedColumn,
   } from 'typeorm';
-  import { Exclude } from 'class-transformer';
+  import { Exclude, Expose } from 'class-transformer';
 import Imovel from './Imovel';
   
 @Entity('proprietarios_imovel')
@@ -21,10 +21,13 @@ class Proprietario {
   email?: string;
   @Column()
   telefone: string;
+  @Column()
+  id_imovel: number;
+  @Expose({ name: 'imovel' })
   @ManyToOne(() => Imovel)
   @JoinColumn({name: 'id_imovel'})
   imovel: Imovel;
-  @Exclude()
+
   @CreateDateColumn()
   created_at: Date;
 } 
