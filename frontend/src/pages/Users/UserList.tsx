@@ -22,7 +22,7 @@ const UserList: React.FC = () => {
           <Box flex="1" borderRadius={8} bg="gray.800" p="8">
             <Flex mb="8" justify="space-between" align="center">
               <Heading size="lg" fontWeight="normal">Usuários</Heading>
-              <Link to="/admin/user/create">
+              <Link to="/users/create">
                 <Button as="a" size="sm" fontSize="sm" colorScheme="cyan" leftIcon={<Icon as={RiAddLine}  fontSize="20"/>} >Criar novo</Button>
               </Link>
             </Flex>

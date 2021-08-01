@@ -1,16 +1,5 @@
-import React, {
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from "react";
-import {
-	Collapse,
-	Tooltip,
-	useDisclosure,
-	useToast,
-	VStack,
-} from "@chakra-ui/react";
+import React, { useCallback, useEffect, useState } from "react";
+import { Tooltip, useToast } from "@chakra-ui/react";
 import {
 	Box,
 	Flex,
@@ -26,80 +15,79 @@ import {
 	HStack,
 	useBreakpointValue,
 } from "@chakra-ui/react";
-import { RiAddLine, RiDeleteBinLine, RiEyeLine } from "react-icons/ri";
+import { RiAddLine, RiDeleteBinLine, RiEyeLine, RiPencilLine } from "react-icons/ri";
 import { Header } from "../../../components/Header";
 import { Sidebar } from "../../../components/Sidebar";
 import { Pagination } from "../../../components/Pagination";
-import { Link,useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import api from "../../../services/apiClient";
-import { Form } from "@unform/web";
-import ImageInput from "../../../components/ImageInput";
-import { FiFile } from "react-icons/fi";
-import { FormHandles } from "@unform/core";
 
-interface ProprietarioData {
+interface Proprietario {
 	id?: number;
 	nome: string;
-    documento: string;
-    email: string;
-    telefone: string;
-    id_imovel: number;
+	documento: string;
+	email: string;
+	formatedDate: string;
+	telefone: string;
+	id_imovel: number;
+	created_at: Date;
 }
-interface ParamsData {
+interface Params {
 	id: string;
 }
 
 const ProprietarioListagem: React.FC = () => {
-	const formRef = useRef<FormHandles>(null);
 	const toast = useToast();
-	const [proprietarios, setProprietarios] = useState<ProprietarioData[]>([]);
-	const params = useParams<ParamsData>();
-	const { isOpen, onToggle, onClose } = useDisclosure();
+	const [proprietarios, setProprietarios] = useState<Proprietario[]>([]);
+	const params = useParams<Params>();
 
+    const carregarProprietarios = useCallback(() => {
+        api.get<Proprietario[]>(`/imovel/${params.id}/proprietarios`)
+        .then((response) => {
+            const proprietariosData = response.data.map((proprietario) => {
+                return {
+                    ...proprietario,
+                    formatedDate: new Date(
+                        proprietario.created_at
+                    ).toLocaleDateString(),
+                };
+            });
 
+            setProprietarios(proprietariosData);
+        })
+        .catch((error) => console.log(error));
+    }, [params.id]);
 
 	useEffect(() => {
-        // api.get(`/imovel/${params.id}/proprietarios`)
-        // .then((response) => {
-        //     setProprietarios(response.data);
-        // })
-        // .catch((error) => console.log(error));
-        setProprietarios([{
-            id: 1,
-            nome: "João",
-            documento: "123456789",
-            email: "joao@email.com",
-            telefone: "99999-9999",
-            id_imovel: 1
-        }]);
-	}, []);
+		carregarProprietarios();
+	}, [carregarProprietarios]);
 
-	const handleSubmit = useCallback(async (data) => {
-		try {
-		
-            data.documento = data.documento.replace(/[^\d]/g, "");
-           
-            await api.post('/imoveis/create', data);
-			toast({
-				title: "Cadastro",
-				description: "Cadastro relaizado com sucesso.",
-				status: "success",
-				position: "top-right",
-				duration: 9000,
-				isClosable: true,
-			});
-			onClose();
-		} catch (error) {
-			toast({
-				title: "Erro",
-				description: "Algo deu errado.",
-				status: "error",
-				position: "top-right",
-				duration: 9000,
-				isClosable: true,
-			});
-		}
-	}, [params.id]);
+	const handleDelete = useCallback(
+		async (id) => {
+			try {
+				await api.delete(`/proprietario/${id}`);
+                carregarProprietarios();
+				toast({
+					title: "Delete",
+					description: "Proprietário excluido com sucesso.",
+					status: "success",
+					position: "top-right",
+					duration: 9000,
+					isClosable: true,
+				});
+			} catch (error) {
+				toast({
+					title: "Erro",
+					description: "Algo deu errado.",
+					status: "error",
+					position: "top-right",
+					duration: 9000,
+					isClosable: true,
+				});
+			}
+		},
+		[toast]
+	);
 
 	const isWideVersion = useBreakpointValue({
 		base: false,
@@ -128,36 +116,14 @@ const ProprietarioListagem: React.FC = () => {
 							</Button>
 						</Link>
 					</Flex>
-					<Collapse in={isOpen} animateOpacity>
-						<Box
-							p="40px"
-							color="white"
-							mt="4"
-							bg="black.500"
-							rounded="md"
-							shadow="md"
-						>
-							<Form ref={formRef} onSubmit={handleSubmit}>
-								<VStack spacing="1">
-									<ImageInput name="file" multiple />
-									<Flex pt="2">
-										<Button
-											type="submit"
-											color="green"
-											leftIcon={<Icon as={FiFile} />}
-										>
-											Salvar
-										</Button>
-									</Flex>
-								</VStack>
-							</Form>
-						</Box>
-					</Collapse>
+
 					<Table colorScheme="whiteAlpha">
 						<Thead>
 							<Tr>
 								<Th>Nome</Th>
+								<Th>Documento</Th>
                                 <Th>E-mail</Th>
+                                <Th>Telefone</Th>
 								{isWideVersion && <Th>Data de cadastro</Th>}
 								<Th w="8"></Th>
 							</Tr>
@@ -165,30 +131,37 @@ const ProprietarioListagem: React.FC = () => {
 						<Tbody>
 							{proprietarios.map((proprietario) => (
 								<Tr key={proprietario.id}>
-								    <Td>{proprietario.nome}</Td>
-                                    <Td>{proprietario.email}</Td>
-
-									{isWideVersion && <Td>26/07/2021</Td>}
+									<Td>{proprietario.nome}</Td>
+                                    <Td>{proprietario.documento}</Td>
+									<Td>{proprietario.email}</Td>
+                                    <Td>{proprietario.telefone}</Td>
+									{isWideVersion && (
+										<Td>{proprietario.formatedDate}</Td>
+									)}
 
 									<Td>
 										<HStack spacing="1">
-											<Tooltip
+                                            <Tooltip
 												hasArrow
 												placement="top"
-												label="Visualizar"
+												label="Editar"
 												bg="blue.600"
 											>
-												<Button
-													as="a"
-													size="sm"
-													fontSize="sm"
-													colorScheme="blue"
+												<Link
+													to={`proprietario/${proprietario.id}`}
 												>
-													<Icon
-														as={RiEyeLine}
-														fontSize="18"
-													/>
-												</Button>
+													<Button
+														as="a"
+														size="sm"
+														fontSize="sm"
+														colorScheme="green"
+													>
+														<Icon
+															as={RiPencilLine}
+															fontSize="18"
+														/>
+													</Button>
+												</Link>
 											</Tooltip>
 											<Tooltip
 												hasArrow
@@ -201,6 +174,11 @@ const ProprietarioListagem: React.FC = () => {
 													size="sm"
 													fontSize="sm"
 													colorScheme="red"
+													onClick={() =>
+														handleDelete(
+															proprietario.id
+														)
+													}
 												>
 													<Icon
 														as={RiDeleteBinLine}

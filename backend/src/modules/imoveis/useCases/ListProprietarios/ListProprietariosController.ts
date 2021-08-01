@@ -6,8 +6,9 @@ class ListProprietariosController {
 
     async handle(request: Request,response: Response):Promise<Response> {
         try {
+            const {id_imovel} = request.params;
             const listProprietarios = container.resolve(ListProprietariosUseCase);
-            const proprietarios = await listProprietarios.execute();
+            const proprietarios = await listProprietarios.execute(id_imovel);
             return response.json(proprietarios);
         } catch (error) {
             if (error instanceof AppError) {

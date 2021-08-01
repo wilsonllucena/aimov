@@ -17,52 +17,52 @@ import ProprietarioCreate from "../pages/Imoveis/Proprietario/ProprietarioCreate
 const Routes: React.FC = () => (
 	<Switch>
 		<Route path="/" exact component={Login} />
-		<Route path="/admin" exact component={Dashboard} isPrivate />
-		<Route path="/admin/users" exact component={UserList} isPrivate />
+		<Route path="/dashboard" exact component={Dashboard} isPrivate />
+		<Route path="/users" exact component={UserList} isPrivate />
 		<Route
-			path="/admin/imoveis"
+			path="/imoveis"
 			exact
 			component={ImovelListagem}
 			isPrivate
 		/>
 		<Route
-			path="/admin/imovel/cadastro"
+			path="/imoveis/cadastro"
 			exact
 			component={ImovelCreate}
 			isPrivate
 		/>
         <Route
-			path="/admin/imovel/:id"
+			path="/imoveis/:id"
 			exact
 			component={ImovelEdit}
 			isPrivate
 		/>
         <Route
-			path="/admin/imovel/:id/proprietarios"
+			path="/imoveis/:id/proprietarios"
 			exact
 			component={ProprietarioListagem}
 			isPrivate
 		/>
           <Route
-			path="/admin/imovel/:id/proprietario/create"
+			path="/imoveis/:id/proprietario/create"
 			exact
 			component={ProprietarioCreate}
 			isPrivate
 		/>
         <Route
-			path="/admin/imovel/proprietario/:id"
+			path="/imoveis/:id_imovel/proprietario/:id"
 			exact
 			component={ProprietarioEdit}
 			isPrivate
 		/>
         <Route
-			path="/admin/images/imovel/:id"
+			path="/imoveis/:id/imagens"
 			exact
 			component={ImovelImages}
 			isPrivate
 		/>
 		<Route
-			path="/admin/user/create"
+			path="/users/create"
 			exact
 			component={CreateUser}
 			isPrivate

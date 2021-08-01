@@ -9,6 +9,7 @@ interface IProprietarioRepository{
   update(proprietario: Proprietario): Promise<UpdateResult>
   findByDocumento(documento: string): Promise<Proprietario | undefined>
   list(): Promise<Proprietario[]>;
+  findByIdImovel(id_imovel: number): Promise<Proprietario[]>;
   save(proprietario: Proprietario): Promise<Proprietario>;
 }
 

@@ -13,21 +13,21 @@ const SidebarNav: React.FC = () => {
 	return (
 		<Stack spacing={12} align="flex-start">
 			<NavSection title="GERAL">
-				<NavLink href="/admin" icon={RiDashboardLine}>
+				<NavLink href="/dashboard" icon={RiDashboardLine}>
 					Dashboard
 				</NavLink>
-				<NavLink href="/admin/users" icon={RiContactsLine}>
+				<NavLink href="/users" icon={RiContactsLine}>
 					Usuários
 				</NavLink>
-				<NavLink href="/admin/imoveis" icon={RiBuildingLine}>
+				<NavLink href="/imoveis" icon={RiBuildingLine}>
 					Imoveis
 				</NavLink>
 			</NavSection>
-			<NavSection title="AUTOMAÇÂO">
+			{/* <NavSection title="AUTOMAÇÂO">
 				<NavLink href="/" icon={RiPolaroidLine}>
 					Pontuação
 				</NavLink>
-			</NavSection>
+			</NavSection> */}
 		</Stack>
 	);
 };

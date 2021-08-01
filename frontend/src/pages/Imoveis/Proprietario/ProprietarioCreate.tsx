@@ -12,7 +12,7 @@ import {
 import { Header } from "../../../components/Header";
 import { Sidebar } from "../../../components/Sidebar";
 import { Input } from "../../../components/Input";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { Form } from "@unform/web";
 import Button from "../../../components/Button";
 import { InputFone } from "../../../components/InputMask/InputFone";
@@ -27,15 +27,21 @@ interface FomDataRequest {
 	telefone: string;
 }
 
+interface Params {
+	id: string;
+}
+
 const ProprietarioCreate: React.FC = () => {
 	const formRef = useRef<FormHandles>(null);
 	const toast = useToast();
 	const history = useHistory();
+    const params = useParams<Params>();
+
 
 	const handleSubmit = useCallback(async (data: FomDataRequest) => {
 		try {
 			data.documento = data.documento.replace(/[^\d]/g, "");
-			await api.post("/imoveis", data);
+			await api.post(`/imovel/${params.id}/proprietarios`, data);
 			toast({
 				title: "Cadastro",
 				description: "Cadastro relaizado com sucesso.",
@@ -45,7 +51,7 @@ const ProprietarioCreate: React.FC = () => {
 				isClosable: true,
 			});
 
-			history.push("/admin/imoveis");
+			history.goBack();
 		} catch (error) {
 			toast({
 				title: "Erro",
@@ -56,7 +62,7 @@ const ProprietarioCreate: React.FC = () => {
 				isClosable: true,
 			});
 		}
-	}, []);
+	}, [params.id, toast, history]);
 	return (
 		<Box>
 			<Header />
@@ -107,7 +113,7 @@ const ProprietarioCreate: React.FC = () => {
 						</VStack>
 						<Flex justify="flex-end">
 							<HStack spacing="4">
-								<Link to="">
+								<Link to={`/imoveis/${params.id}/proprietarios`}>
 									<Button
 										size="md"
 										fontSize="md"

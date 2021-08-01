@@ -13,6 +13,7 @@ class ProprietarioRepository implements IProprietarioRepository {
 	constructor() {
 		this.repository = getRepository(Proprietario);
 	}
+ 
 
 	update(proprietario: Proprietario): Promise<UpdateResult> {
 		return this.repository.update({ id: proprietario.id }, proprietario);
@@ -48,6 +49,11 @@ class ProprietarioRepository implements IProprietarioRepository {
 		const proprietario = await this.repository.findOne(id);
 		return proprietario;
 	}
+
+    async findByIdImovel(id_imovel: number): Promise<Proprietario[]> {
+        const proprietario = await this.repository.find({id_imovel});
+		return proprietario;
+    }
 
 	async delete(proprietario: Proprietario): Promise<DeleteResult> {
 		return await this.repository.delete({ id: proprietario.id });

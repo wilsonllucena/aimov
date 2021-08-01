@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Tooltip, useToast } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { Tooltip } from "@chakra-ui/react";
 import {
 	Box,
 	Flex,
@@ -59,13 +59,11 @@ interface Imovel {
 	observacoes: string;
 	created_at: Date;
 }
-
-const ImovelListagem: React.FC = () => {
-    const toast = useToast();
+const ImovelView: React.FC = () => {
 	const [imoveis, setImoveis] = useState<Imovel[]>([]);
 
-    const carregaImoveis = useCallback(() => {
-        api.get<Imovel[]>("/imoveis").then((response) => {
+	useEffect(() => {
+		api.get<Imovel[]>("/imoveis").then((response) => {
 			const imovelData = response.data.map((imovel) => {
 				return {
 					...imovel,
@@ -76,37 +74,7 @@ const ImovelListagem: React.FC = () => {
 			});
 			setImoveis(imovelData);
 		});
-    },[])
-	useEffect(() => {
-        carregaImoveis();
-	}, [carregaImoveis]);
-
-    const handleDelete = useCallback(
-		async (id) => {
-			try {
-				await api.delete(`/imovel/${id}`);
-                carregaImoveis();
-				toast({
-					title: "Delete",
-					description: "Imóvel excluido com sucesso.",
-					status: "success",
-					position: "top-right",
-					duration: 9000,
-					isClosable: true,
-				});
-			} catch (error) {
-				toast({
-					title: "Erro",
-					description: "Algo deu errado.",
-					status: "error",
-					position: "top-right",
-					duration: 9000,
-					isClosable: true,
-				});
-			}
-		},
-		[toast]
-	);
+	}, []);
 
 	const isWideVersion = useBreakpointValue({
 		base: false,
@@ -123,7 +91,7 @@ const ImovelListagem: React.FC = () => {
 						<Heading size="lg" fontWeight="normal">
 							Imoveis
 						</Heading>
-						<Link to="cadastro">
+						<Link to="/admin/imovel/cadastro">
 							<Button
 								as="a"
 								size="sm"
@@ -210,7 +178,7 @@ const ImovelListagem: React.FC = () => {
 											>
                                                 
 												<Link
-													to={`imoveis/${imovel.id}/proprietarios`}
+													to={`imovel/${imovel.id}/proprietarios`}
 												>
 												<Button
 													as="a"
@@ -232,7 +200,7 @@ const ImovelListagem: React.FC = () => {
 												bg="blue.600"
 											>
 												<Link
-													to={`imoveis/${imovel.id}/imagens`}
+													to={`images/imovel/${imovel.id}`}
 												>
 													<Button
 														as="a"
@@ -254,7 +222,7 @@ const ImovelListagem: React.FC = () => {
 												bg="blue.600"
 											>
 												<Link
-													to={`imoveis/${imovel.id}`}
+													to={`imovel/${imovel.id}`}
 												>
 													<Button
 														as="a"
@@ -280,11 +248,6 @@ const ImovelListagem: React.FC = () => {
 													size="sm"
 													fontSize="sm"
 													colorScheme="red"
-                                                    onClick={() =>
-														handleDelete(
-															imovel.id
-														)
-													}
 												>
 													<Icon
 														as={RiDeleteBinLine}
@@ -305,4 +268,4 @@ const ImovelListagem: React.FC = () => {
 	);
 };
 
-export default ImovelListagem;
+export default ImovelView;

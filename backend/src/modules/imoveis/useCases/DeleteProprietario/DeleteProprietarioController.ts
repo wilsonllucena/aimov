@@ -7,9 +7,7 @@ class DeleteProprietarioController {
 	async handle(request: Request, response: Response): Promise<Response> {
 		try {
 			const { id } = request.params;
-			const deleteProprietarioUseCase = container.resolve(
-				DeleteProprietarioUseCase
-			);
+			const deleteProprietarioUseCase = container.resolve(DeleteProprietarioUseCase);
 			await deleteProprietarioUseCase.execute(id);
 			return response.status(204).send();
 		} catch (error) {

@@ -1,5 +1,4 @@
 import React, {
-	ChangeEvent,
 	useCallback,
 	useEffect,
 	useRef,
@@ -32,9 +31,8 @@ import { RiAddLine, RiDeleteBinLine, RiEyeLine } from "react-icons/ri";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 import { Pagination } from "../../components/Pagination";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "../../services/apiClient";
-import "./styles.css";
 import { Form } from "@unform/web";
 import ImageInput from "../../components/ImageInput";
 import { FiFile } from "react-icons/fi";

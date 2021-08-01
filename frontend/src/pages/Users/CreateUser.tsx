@@ -98,7 +98,7 @@ const CreateUser: React.FC = () => {
 						</VStack>
 						<Flex justify="flex-end">
 							<HStack spacing="4">
-								<Link to="/admin/users">
+								<Link to="/users">
 									<Button
 										size="md"
 										fontSize="md"

@@ -192,7 +192,7 @@ const ImovelCreate: React.FC = () => {
 						</VStack>
 						<Flex justify="flex-end">
 							<HStack spacing="4">
-								<Link to="/admin/imoveis">
+								<Link to="imoveis">
 									<Button
 										size="md"
 										fontSize="md"

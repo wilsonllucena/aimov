@@ -26,10 +26,12 @@ interface FormDataRequest {
 	documento: string;
 	email: string;
 	telefone: string;
+    id_imovel: number;
 }
 
 interface ParamsData {
 	id: string;
+    id_imovel: string;
 }
 const ProprietarioEdit: React.FC = () => {
 	const formRef = useRef<FormHandles>(null);
@@ -42,19 +44,18 @@ const ProprietarioEdit: React.FC = () => {
 		async (data: FormDataRequest) => {
 			try {
 				data.documento = data.documento.replace(/[^\d]/g,"");
-				data.id = params.id;
-
-				await api.put("/imovel", data);
+                data.id_imovel = parseInt(params.id_imovel);
+				await api.put(`/proprietario/${params.id}`, data);
 				toast({
 					title: "Atualização",
-					description: "Imovel atualizado com sucesso.",
+					description: "Proprietário atualizado com sucesso.",
 					status: "success",
 					position: "top-right",
 					duration: 9000,
 					isClosable: true,
 				});
 
-				history.push("/admin/imoveis");
+				history.goBack();
 			} catch (error) {
 				toast({
 					title: "Erro",
@@ -70,17 +71,11 @@ const ProprietarioEdit: React.FC = () => {
 	);
 
 	useEffect(() => {
-        setInitialData([{
-            nome: "João",
-            documento: "123456789",
-            email: "joao@email.com",
-            telefone: "99999-9999"
-        }])
-		// api.get(`/imovel/${params.id}`)
-		// 	.then((response) => {
-		// 		setInitialData(response.data);
-		// 	})
-		// 	.catch((error) => console.log(error));
+		api.get(`/proprietario/${params.id}`)
+			.then((response) => {
+				setInitialData(response.data);
+			})
+			.catch((error) => console.log(error));
 	}, [params.id]);
 
     return (
@@ -137,7 +132,7 @@ const ProprietarioEdit: React.FC = () => {
 						</VStack>
 						<Flex justify="flex-end">
 							<HStack spacing="4">
-								<Link to="/admin/imoveis">
+								<Link to={`/admin/imovel/${params.id_imovel}/proprietarios`}>
 									<Button
 										size="md"
 										fontSize="md"

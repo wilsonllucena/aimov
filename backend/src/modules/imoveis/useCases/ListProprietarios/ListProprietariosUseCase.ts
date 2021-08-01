@@ -10,8 +10,8 @@ class ListProprietariosUseCase {
         private proprietarioRepository: IProprietarioRepository
         ) { }
 
-    async execute(): Promise<Proprietario[]> {
-        const proprietarios = await this.proprietarioRepository.list();
+    async execute(id_imovel: string): Promise<Proprietario[]> {
+        const proprietarios = await this.proprietarioRepository.findByIdImovel(parseInt(id_imovel));
         return classToClass(proprietarios);
     }
 };
