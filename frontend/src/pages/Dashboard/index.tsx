@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Flex, SimpleGrid , Text, Box, theme} from '@chakra-ui/react'
 import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/Sidebar';
 import Chart from 'react-apexcharts';
+import api from "../../services/apiClient";
 const options = {
   chart: {
     toolbar: {
@@ -28,6 +29,15 @@ const series = [
 ]
 
 const Dashboard: React.FC = () => {
+    const [imoveis, setImoveis] = useState([]);
+
+	useEffect(() => {
+        api.get("/imoveis").then((response) => {
+			setImoveis(response.data);
+		});
+	}, []);
+
+    console.log(imoveis.length);
   return (
     <Flex direction="column"  h="100vh">
       <Header />

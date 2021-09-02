@@ -8,7 +8,7 @@ import Routes from "./routes";
 function App() {
 	return (
 		<>
-			<ChakraProvider resetCSS={true} theme={theme}>
+			<ChakraProvider  resetCSS={true} theme={theme}>
 				<SidebarDrawerProvider>
 					<Router>
 						<AppProvider>

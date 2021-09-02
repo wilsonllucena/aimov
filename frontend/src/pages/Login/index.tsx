@@ -39,7 +39,7 @@ const Login: React.FC = () => {
 					password
 				});
 
-				history.push("/admin");
+				history.push("/dashboard");
 			} catch (err) {
 				//   if (err instanceof Yup.ValidationError) {
 				//     const errors = getValidationErrors(err);

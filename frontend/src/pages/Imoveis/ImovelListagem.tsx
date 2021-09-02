@@ -123,7 +123,7 @@ const ImovelListagem: React.FC = () => {
 						<Heading size="lg" fontWeight="normal">
 							Imoveis
 						</Heading>
-						<Link to="cadastro">
+						<Link to="imoveis/cadastro">
 							<Button
 								as="a"
 								size="sm"

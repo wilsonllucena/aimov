@@ -28,9 +28,17 @@ imovelRoutes.post(
 	createImovelController.handle
 );
 imovelRoutes.get(
-	"/imovel/:id",
+	"/imovel/:id([0-9]+)",
 	ensureAuthenticated,
 	getImovelController.handle
+);
+
+imovelRoutes.get(
+	"/imovel/teste",
+	ensureAuthenticated,
+	function (req, res) {
+        res.send("teste");
+    }
 );
 imovelRoutes.put("/imovel", ensureAuthenticated, updateImovelController.handle);
 imovelRoutes.delete(
